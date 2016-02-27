@@ -26281,6 +26281,7 @@
 	var initialState = {
 	    isLogined: false,
 	    page: 1,
+	    totalPage: 1,
 	    user: {},
 	    list: []
 	};
@@ -26293,7 +26294,8 @@
 	        case _constants.ARTICLE_LIST:
 	            state = Object.assign({}, res, {
 	                list: action.list,
-	                page: state.page++
+	                page: state.page + 1,
+	                totalPage: action.totalPage
 	            });
 	            break;
 	        case _constants.REGISTER_SUCCESS:
@@ -26321,6 +26323,7 @@
 	exports.GetArticleList = GetArticleList;
 	exports.Login = Login;
 	exports.CheckLogin = CheckLogin;
+	exports.logOut = logOut;
 	exports.Register = Register;
 	exports.publishArticle = publishArticle;
 
@@ -26339,7 +26342,8 @@
 	            success: function success(res) {
 	                return dispatch({
 	                    type: _constants.ARTICLE_LIST,
-	                    list: res.data
+	                    list: res.data,
+	                    totalPage: res.total
 	                });
 	            },
 	            error: function error(ex) {
@@ -26380,6 +26384,26 @@
 	    return function (dispatch) {
 	        return _networkAPI.requestMethods.PostRequest({
 	            url: _networkAPI.requestUrls.checkLogin,
+	            success: function success(res) {
+	                return dispatch({
+	                    type: _constants.LOGIN_SUCCESS,
+	                    user: res.user
+	                });
+	            },
+	            error: function error(ex) {
+	                return dispatch({
+	                    type: _constants.REQUEST_FAIL,
+	                    ex: ex
+	                });
+	            }
+	        });
+	    };
+	}
+
+	function logOut() {
+	    return function (dispatch) {
+	        return _networkAPI.requestMethods.PostRequest({
+	            url: _networkAPI.requestUrls.logout,
 	            success: function success(res) {
 	                return dispatch({
 	                    type: _constants.LOGIN_SUCCESS,
@@ -26537,8 +26561,7 @@
 	    "postArticle": prefUri + "postArticle",
 	    "updateArticle": prefUri + "updateArticle",
 	    "deleteArticle": prefUri + "deleteArticle",
-	    "getArchives": prefUri + "getArchives",
-	    "getArchive": prefUri + "getArchive",
+	    "getArchives": prefUri + "archives",
 	    "getUserInfo": prefUri + "getUserInfo"
 	};
 
@@ -26760,7 +26783,8 @@
 	        _react2["default"].createElement(_reactRouter.Route, { path: "userCenter", components: { content: _components.UserCenter } }),
 	        _react2["default"].createElement(_reactRouter.Route, { path: "register", components: { content: _components.Register } }),
 	        _react2["default"].createElement(_reactRouter.Route, { path: "login", components: { content: _components.Login } }),
-	        _react2["default"].createElement(_reactRouter.Route, { path: "links", components: { content: _components.Links } })
+	        _react2["default"].createElement(_reactRouter.Route, { path: "links", components: { content: _components.Links } }),
+	        _react2["default"].createElement(_reactRouter.Route, { path: "*", components: { content: _components.NotFound } })
 	    );
 	}
 
@@ -26830,6 +26854,10 @@
 
 	var _Links2 = _interopRequireDefault(_Links);
 
+	var _NotFound = __webpack_require__(393);
+
+	var _NotFound2 = _interopRequireDefault(_NotFound);
+
 	exports.Main = _Main2["default"];
 	exports.Detail = _Detail2["default"];
 	exports.Post = _Post2["default"];
@@ -26842,6 +26870,7 @@
 	exports.Register = _Register2["default"];
 	exports.UserCenter = _UserCenter2["default"];
 	exports.Links = _Links2["default"];
+	exports.NotFound = _NotFound2["default"];
 
 /***/ },
 /* 240 */
@@ -26925,6 +26954,33 @@
 	                    "发表吧!"
 	                );
 	            }
+	        }
+	    }, {
+	        key: "renderPagenation",
+	        value: function renderPagenation() {
+	            var _props2 = this.props;
+	            var page = _props2.page;
+	            var totalPage = _props2.totalPage;
+
+	            function renderPageLinks() {
+	                var links = [];
+	                for (var i = 1; i < totalPage; i++) {
+	                    links.push(_react2["default"].createElement(
+	                        _reactRouter.Link,
+	                        { key: i, to: "test" },
+	                        i
+	                    ));
+	                }
+	                return links;
+	            }
+
+	            console.log(renderPageLinks());
+
+	            return _react2["default"].createElement(
+	                "ul",
+	                null,
+	                renderPageLinks()
+	            );
 	        }
 	    }, {
 	        key: "rendTags",
@@ -27017,7 +27073,8 @@
 	            return _react2["default"].createElement(
 	                "div",
 	                null,
-	                this.rendList(list)
+	                this.rendList(list),
+	                this.renderPagenation()
 	            );
 	        }
 	    }]);
@@ -27033,6 +27090,7 @@
 	function mapStateToProps(state) {
 	    return {
 	        page: state.reducers.page,
+	        totalPage: state.reducers.totalPage,
 	        list: state.reducers.list,
 	        isLogined: state.reducers.isLogined
 	    };
@@ -27247,30 +27305,31 @@
 	 */
 	var menuList = [{
 	    "name": "Home",
+	    "type": "link",
 	    "link": "/"
 	}, {
 	    "name": "Archive",
+	    "type": "link",
 	    "link": "/archive"
 	}, {
 	    "name": "Tags",
+	    "type": "link",
 	    "link": "/tags"
 	}, {
 	    "name": "Post",
+	    "type": "link",
 	    "link": "/post"
 	}, {
-	    "name": "Upload",
-	    "link": "/upload"
-	}, {
-	    "name": "User Center",
-	    "link": "/userCenter"
-	}, {
 	    "name": "Register",
+	    "type": "link",
 	    "link": "/register"
 	}, {
 	    "name": "Login",
+	    "type": "link",
 	    "link": "/login"
 	}, {
 	    "name": "Links",
+	    "type": "link",
 	    "link": "/links"
 	}];
 
@@ -27288,6 +27347,11 @@
 	        value: function componentWillMount() {
 	            this.props.CheckLogin();
 	        }
+	    }, {
+	        key: "handleLogout",
+	        value: function handleLogout() {
+	            this.props.logOut();
+	        }
 
 	        /**
 	         * 渲染菜单数组
@@ -27296,33 +27360,40 @@
 	    }, {
 	        key: "renderMenuItem",
 	        value: function renderMenuItem() {
+	            var _this = this;
+
 	            if (this.props.isLogined) {
 	                return [{
 	                    "name": "Home",
+	                    "type": "link",
 	                    "link": "/"
 	                }, {
 	                    "name": "Archive",
+	                    "type": "link",
 	                    "link": "/archive"
 	                }, {
 	                    "name": "Tags",
+	                    "type": "link",
 	                    "link": "/tags"
 	                }, {
 	                    "name": "Post",
+	                    "type": "link",
 	                    "link": "/post"
 	                }, {
-	                    "name": "Upload",
-	                    "link": "/upload"
-	                }, {
 	                    "name": "User Center",
+	                    "type": "link",
 	                    "link": "/userCenter"
 	                }, {
 	                    "name": "Logout",
+	                    "type": "event",
+	                    "event": "handleLogout",
 	                    "link": "/logout"
 	                }, {
 	                    "name": "Links",
+	                    "type": "link",
 	                    "link": "/links"
 	                }].map(function (item, index) {
-	                    return _react2["default"].createElement(
+	                    return item["type"] == "link" ? _react2["default"].createElement(
 	                        "span",
 	                        { key: index },
 	                        _react2["default"].createElement(
@@ -27330,11 +27401,15 @@
 	                            { to: item["link"] },
 	                            item["name"]
 	                        )
+	                    ) : _react2["default"].createElement(
+	                        "span",
+	                        { key: index, onClick: _this[item["event"]].bind(_this) },
+	                        item["name"]
 	                    );
 	                });
 	            }
 	            return menuList.map(function (item, index) {
-	                return _react2["default"].createElement(
+	                return item["type"] == "link" ? _react2["default"].createElement(
 	                    "span",
 	                    { key: index },
 	                    _react2["default"].createElement(
@@ -27342,6 +27417,10 @@
 	                        { to: item["link"] },
 	                        item["name"]
 	                    )
+	                ) : _react2["default"].createElement(
+	                    "span",
+	                    { key: index, onClick: _this[item["event"]].bind(_this) },
+	                    item["name"]
 	                );
 	            });
 	        }
@@ -27424,6 +27503,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(181);
+
+	var _networkAPI = __webpack_require__(236);
+
 	var Archive = (function (_Component) {
 	    _inherits(Archive, _Component);
 
@@ -27431,15 +27514,87 @@
 	        _classCallCheck(this, Archive);
 
 	        _get(Object.getPrototypeOf(Archive.prototype), "constructor", this).call(this, props);
+	        this.state = {
+	            archives: []
+	        };
 	    }
 
 	    _createClass(Archive, [{
+	        key: "componentWillMount",
+	        value: function componentWillMount() {
+	            var _this = this;
+
+	            _networkAPI.requestMethods.GetRequest({
+	                url: _networkAPI.requestUrls.getArchives,
+	                success: function success(res) {
+	                    _this.setState({
+	                        archives: res.archives
+	                    });
+	                },
+	                error: function error(ex) {
+	                    alert("请求失败");
+	                    console.log(ex);
+	                }
+	            });
+	        }
+	    }, {
+	        key: "renderArchivesByDate",
+	        value: function renderArchivesByDate(data) {
+	            for (var item in data) {
+	                var curData = data[item];
+	                return _react2["default"].createElement(
+	                    "li",
+	                    { key: item },
+	                    _react2["default"].createElement(
+	                        "h1",
+	                        { className: "public-date" },
+	                        item
+	                    ),
+	                    curData.map(function (item) {
+	                        return _react2["default"].createElement(
+	                            "p",
+	                            { key: item["_id"] },
+	                            _react2["default"].createElement(
+	                                _reactRouter.Link,
+	                                {
+	                                    to: "/u/" + item["name"] + "/" + item["time"]["day"] + "/" + item["title"] },
+	                                item["title"] + " - " + item["name"]
+	                            )
+	                        );
+	                    })
+	                );
+	            }
+	        }
+	    }, {
+	        key: "renderArchives",
+	        value: function renderArchives() {
+	            var archives = this.state.archives;
+
+	            var renderData = {};
+	            archives.forEach(function (item) {
+	                var date = item["time"]["date"].substr(0, 10);
+	                if (!renderData[date]) {
+	                    renderData[date] = [];
+	                }
+	                renderData[date].push(item);
+	            });
+	            if (archives.length) {
+	                return _react2["default"].createElement(
+	                    "ul",
+	                    null,
+	                    this.renderArchivesByDate(renderData)
+	                );
+	            }
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
+	            var archives = this.state.archives;
+
 	            return _react2["default"].createElement(
 	                "div",
 	                null,
-	                "Archive"
+	                this.renderArchives()
 	            );
 	        }
 	    }]);
@@ -27513,21 +27668,19 @@
 	            });
 	        }
 	    }, {
-	        key: "render",
-	        value: function render() {
+	        key: "renderTags",
+	        value: function renderTags() {
 	            var tags = this.state.tags;
 
-	            return _react2["default"].createElement(
-	                "div",
-	                null,
-	                _react2["default"].createElement(
+	            if (tags.length) {
+	                return _react2["default"].createElement(
 	                    "ul",
 	                    null,
-	                    tags.map(function (item) {
-	                        if (!!tags) {
+	                    tags.map(function (item, index) {
+	                        if (!!item) {
 	                            return _react2["default"].createElement(
 	                                "li",
-	                                null,
+	                                { key: index },
 	                                _react2["default"].createElement(
 	                                    _reactRouter.Link,
 	                                    { to: "/tag/" + item },
@@ -27536,7 +27689,17 @@
 	                            );
 	                        }
 	                    })
-	                )
+	                );
+	            }
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+
+	            return _react2["default"].createElement(
+	                "div",
+	                null,
+	                this.renderTags()
 	            );
 	        }
 	    }]);
@@ -28337,6 +28500,64 @@
 	})(_react.Component);
 
 	exports["default"] = tag;
+	module.exports = exports["default"];
+
+/***/ },
+/* 393 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * 404 Not Found
+	 */
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var NotFound = (function (_Component) {
+	    _inherits(NotFound, _Component);
+
+	    function NotFound(props) {
+	        _classCallCheck(this, NotFound);
+
+	        _get(Object.getPrototypeOf(NotFound.prototype), "constructor", this).call(this, props);
+	    }
+
+	    _createClass(NotFound, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2["default"].createElement(
+	                "div",
+	                { className: "not-found" },
+	                _react2["default"].createElement(
+	                    "h1",
+	                    null,
+	                    "Not Found"
+	                )
+	            );
+	        }
+	    }]);
+
+	    return NotFound;
+	})(_react.Component);
+
+	exports["default"] = NotFound;
 	module.exports = exports["default"];
 
 /***/ }

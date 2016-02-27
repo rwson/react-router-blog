@@ -50,8 +50,7 @@ export const requestUrls = {
     "postArticle": `${prefUri}postArticle`,
     "updateArticle": `${prefUri}updateArticle`,
     "deleteArticle": `${prefUri}deleteArticle`,
-    "getArchives": `${prefUri}getArchives`,
-    "getArchive": `${prefUri}getArchive`,
+    "getArchives": `${prefUri}archives`,
     "getUserInfo":`${prefUri}getUserInfo`
 };
 

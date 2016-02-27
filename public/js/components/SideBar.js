@@ -17,38 +17,37 @@ import * as Actions from "../actions";
 let menuList = [
     {
         "name": "Home",
+        "type":"link",
         "link": "/"
     },
     {
         "name": "Archive",
+        "type":"link",
         "link": "/archive"
     },
     {
         "name": "Tags",
+        "type":"link",
         "link": "/tags"
     },
     {
         "name":"Post",
+        "type":"link",
         "link":"/post"
     },
     {
-        "name": "Upload",
-        "link": "/upload"
-    },
-    {
-        "name": "User Center",
-        "link": "/userCenter"
-    },
-    {
         "name": "Register",
+        "type":"link",
         "link": "/register"
     },
     {
         "name": "Login",
+        "type":"link",
         "link": "/login"
     },
     {
         "name": "Links",
+        "type":"link",
         "link": "/links"
     }
 ];
@@ -62,6 +61,10 @@ class SideBar extends Component {
         this.props.CheckLogin();
     }
 
+    handleLogout(){
+        this.props.logOut();
+    }
+
     /**
      * 渲染菜单数组
      * @returns {Array}
@@ -71,45 +74,53 @@ class SideBar extends Component {
             return ([
                 {
                     "name": "Home",
+                    "type":"link",
                     "link": "/"
                 },
                 {
                     "name": "Archive",
+                    "type":"link",
                     "link": "/archive"
                 },
                 {
                     "name": "Tags",
+                    "type":"link",
                     "link": "/tags"
                 },
                 {
                     "name":"Post",
+                    "type":"link",
                     "link":"/post"
                 },
                 {
-                    "name": "Upload",
-                    "link": "/upload"
-                },
-                {
                     "name": "User Center",
+                    "type":"link",
                     "link": "/userCenter"
                 },
                 {
                     "name": "Logout",
+                    "type":"event",
+                    "event":"handleLogout",
                     "link": "/logout"
                 },
                 {
                     "name": "Links",
+                    "type":"link",
                     "link": "/links"
                 }
             ]).map((item, index) => {
-                    return (
+                    return item["type"] == "link" ? (
                         <span key={index}><Link to={item["link"]}>{item["name"]}</Link></span>
+                    ) : (
+                        <span key={index} onClick={this[item["event"]].bind(this)}>{item["name"]}</span>
                     );
                 });
         }
         return menuList.map((item, index) => {
-            return (
+            return item["type"] == "link" ? (
                 <span key={index}><Link to={item["link"]}>{item["name"]}</Link></span>
+            ) : (
+                <span key={index} onClick={this[item["event"]].bind(this)}>{item["name"]}</span>
             );
         });
     }

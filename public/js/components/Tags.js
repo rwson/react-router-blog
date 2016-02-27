@@ -31,19 +31,28 @@ export default class Tags extends Component {
         });
     }
 
-    render(){
+    renderTags(){
         const {tags} = this.state;
-        return (
-            <div>
+        if(tags.length){
+            return (
                 <ul>
-                    {tags.map((item) => {
-                        if(!!tags){
+                    {tags.map((item,index) => {
+                        if(!!item){
                             return (
-                                <li><Link to={"/tag/" + item}>{item}</Link></li>
+                                <li key={index}><Link to={"/tag/" + item}>{item}</Link></li>
                             )
                         }
                     })}
                 </ul>
+            );
+        }
+    }
+
+    render(){
+
+        return (
+            <div>
+                {this.renderTags()}
             </div>
         );
     }

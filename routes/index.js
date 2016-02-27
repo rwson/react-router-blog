@@ -26,7 +26,8 @@ module.exports = function (app) {
 
             res.send(200, {
                 "status": "success",
-                "data": posts
+                "data": posts,
+                "total":Math.ceil(total / 10)
             });
         });
     });
@@ -188,12 +189,15 @@ module.exports = function (app) {
         });
     });
 
+    /**
+     * 获取指定标签下的文章
+     */
     app.get("/tag/articles/:tag", function (req, res) {
         Post.getTag(req.params.tag, function (err, posts) {
             //  从数据库获取该标签对应的标签
 
             if (err) {
-                res.send({
+                res.send(500,{
                     "status": "error",
                     "message": "server error"
                 });
@@ -206,7 +210,29 @@ module.exports = function (app) {
             });
         });
     });
-    //  指定标签
+
+    /**
+     * 获取所有的分类
+     */
+    app.get("/archives", function (req, res) {
+        Post.getArchive(function (err, posts) {
+            //  从数据库中获取记录
+
+            if (err) {
+                res.send(500,{
+                    "status": "error",
+                    "message": "server error"
+                });
+            }
+            //  查询失败
+
+            res.send(200,{
+                "status":"success",
+                "archives":posts
+            });
+        });
+    });
+    //  存档
 
     app.post("/post", _checkLogin);
     app.post("/post", function (req, res) {
@@ -251,28 +277,6 @@ module.exports = function (app) {
         }
     });
     //	上传文件
-
-    app.get("/archive", function (req, res) {
-        Post.getArchive(function (err, posts) {
-            //  从数据库中获取记录
-
-            if (err) {
-                req.flash("error", err);
-                return res.redirect("/");
-            }
-            //  查询失败
-
-            res.render("acrhive", {
-                "title": "存档",
-                "posts": posts,
-                "user": req.session.user[0],
-                "success": req.flash("success"),
-                "error": req.flash("error")
-            });
-        });
-    });
-    //  存档
-
 
     app.get("/search", function (req, res) {
         Post.search(req.query.keyword, function (err, posts) {

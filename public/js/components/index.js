@@ -16,6 +16,7 @@ import Login from "./Login";
 import Register from "./Register";
 import UserCenter from "./UserCenter";
 import Links from "./Links";
+import NotFound from "./NotFound";
 
 export {
     Main,
@@ -29,5 +30,6 @@ export {
     Login,
     Register,
     UserCenter,
-    Links
+    Links,
+    NotFound
 };

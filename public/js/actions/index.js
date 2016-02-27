@@ -13,7 +13,8 @@ export function GetArticleList(page) {
         success: (res) => {
             return dispatch({
                 type: ARTICLE_LIST,
-                list: res.data
+                list: res.data,
+                totalPage:res.total
             });
         },
         error: (ex) => {
@@ -50,6 +51,24 @@ export function Login(username, password) {
 export function CheckLogin(){
     return dispatch => requestMethods.PostRequest({
         url:requestUrls.checkLogin,
+        success:(res) => {
+            return dispatch({
+                type: LOGIN_SUCCESS,
+                user: res.user
+            });
+        },
+        error:(ex) => {
+            return dispatch({
+                type: REQUEST_FAIL,
+                ex:ex
+            });
+        }
+    });
+}
+
+export function logOut(){
+    return dispatch => requestMethods.PostRequest({
+        url:requestUrls.logout,
         success:(res) => {
             return dispatch({
                 type: LOGIN_SUCCESS,

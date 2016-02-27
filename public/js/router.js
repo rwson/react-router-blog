@@ -10,7 +10,22 @@ import {connect} from "react-redux";
 import {createStore,bindActionCreators} from "redux";
 import {routeActions} from "react-router-redux";
 
-import {Main,Detail,Post,SideBar,Archive,Tags,Tag,Upload,Login,Register,UserCenter,Links} from "./components";
+import {
+    Main,
+    Detail,
+    Post,
+    SideBar,
+    Archive,
+    Tags,
+    Tag,
+    Upload,
+    Login,
+    Register,
+    UserCenter,
+    Links,
+    NotFound
+} from "./components";
+
 //  引入组件
 
 /**
@@ -56,6 +71,7 @@ export default function getRoutes() {
             <Route path="register" components={{content: Register}}/>
             <Route path="login" components={{content: Login}}/>
             <Route path="links" components={{content: Links}}/>
+            <Route path="*" components={{content: NotFound}}/>
         </Route>
     );
 }

@@ -29,6 +29,25 @@ class Main extends Component {
         }
     }
 
+    renderPagenation() {
+        const {page,totalPage} = this.props;
+        function renderPageLinks(){
+            let links = [];
+            for(let i = 1;i < totalPage;i ++){
+                links.push(<Link key={i} to={"test"}>{i}</Link>);
+            }
+            return links;
+        }
+
+        console.log(renderPageLinks());
+
+        return (
+            <ul>
+                {renderPageLinks()}
+            </ul>
+        );
+    }
+
     rendTags(tags) {
         return tags.join("").length ? (
             <div>
@@ -54,6 +73,7 @@ class Main extends Component {
                             to={"/u/" + item["name"] + "/" + item["time"]["day"] + "/" + item["title"]}>{item["title"]}</Link>
                         <Link to={"/u/" + item["name"]}><img src={item["head"]} alt="头像"/></Link>
                     </h2>
+
                     <p>
                         作者:<Link to={"/u/" + item["name"]}>{item["name"]}</Link>|日期:{item["time"]["minutes"]}
                     </p>
@@ -80,6 +100,7 @@ class Main extends Component {
         return (
             <div>
                 {this.rendList(list)}
+                {this.renderPagenation()}
             </div>
         );
     }
@@ -94,6 +115,7 @@ Main.propTypes = {
 function mapStateToProps(state) {
     return {
         page: state.reducers.page,
+        totalPage:state.reducers.totalPage,
         list: state.reducers.list,
         isLogined: state.reducers.isLogined
     };
