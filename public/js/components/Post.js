@@ -10,6 +10,22 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as Actions from "../actions";
 
+import {Editor, EditorState} from 'draft-js';
+
+//import BlogEditor from "./BlogEditor";
+
+class MyEditor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {editorState: EditorState.createEmpty()};
+        this.onChange = (editorState) => this.setState({editorState});
+    }
+    render() {
+        const {editorState} = this.state;
+        return <Editor editorState={editorState} onChange={this.onChange} />;
+    }
+}
+
 class Post extends Component {
     constructor(props) {
         super(props);
@@ -34,9 +50,7 @@ class Post extends Component {
      */
     render() {
         return (
-            <div>
-                <h1>Post</h1>
-            </div>
+            <MyEditor />
         );
     }
 }

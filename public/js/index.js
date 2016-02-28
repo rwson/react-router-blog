@@ -17,6 +17,9 @@ import {routerReducer,routerMiddleware} from "react-router-redux";
 import reducers from "./reducers";
 import getRoutes from "./router";
 
+import "../css/style.css";
+import "../css/Draft.css";
+
 const reducer = combineReducers({
     reducers,
     routing: routerReducer
