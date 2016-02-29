@@ -9,6 +9,11 @@ import {Route,Link} from "react-router";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export default class Detail extends Component {
+
+    /**
+     * 构造器
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -16,10 +21,16 @@ export default class Detail extends Component {
         };
     }
 
+    /**
+     * 组件即将被实例化完成
+     */
     componentDidMount() {
         this.fetchDetail();
     }
 
+    /**
+     * 查询文章详情
+     */
     fetchDetail() {
         const {name,day,title} = this.props.params;
         requestMethods.GetRequest({
@@ -36,20 +47,49 @@ export default class Detail extends Component {
         });
     }
 
+    /**
+     * 选择文章的详细信息
+     * @param detail    详细信息对象
+     * @returns {XML}
+     */
     renderBottomInfo(detail) {
         if (Object.keys(detail).length > 1) {
             return (
                 <div className="bottom-info">
                     <div className="author-info">
                         <p>发布人:{detail["name"]}</p>
+
                         <p>发布时间:{detail["time"]["day"]}</p>
                     </div>
-                    <div className="article-info"></div>
                 </div>
             );
         }
     }
 
+    /**
+     * 渲染评论列表
+     * @param comments  评论对象数组
+     * @returns {XML}
+     */
+    renderComments(comments) {
+        let elements;
+        if (comments && !comments.length) {
+            elements = (
+                <p className="no-comment-tips">本文暂无评论,快来做第一个评论的人吧!</p>
+            );
+        } else {
+            elements = (
+                <p className="no-comment-tips">本文暂无评论,快来做第一个评论的人吧!</p>
+            );
+        }
+        return elements;
+    }
+
+    /**
+     * 渲染文章正文及标题
+     * @param detail    文章对象
+     * @returns {*}
+     */
     renderDetail(detail) {
         let element;
         if (Object.keys(detail).length == 1) {
@@ -62,7 +102,6 @@ export default class Detail extends Component {
             element = (
                 <div className="article-detail">
                     <h1 className="atricle-title">{detail["title"]}</h1>
-
                     <p className="article-content">{detail["post"] || "暂无内容"}</p>
                 </div>
             );
@@ -80,6 +119,7 @@ export default class Detail extends Component {
             <div>
                 {this.renderDetail(detail)}
                 {this.renderBottomInfo(detail)}
+                {this.renderComments(detail.comments)}
             </div>
         );
     }

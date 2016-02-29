@@ -99,7 +99,7 @@
 
 	var _router2 = _interopRequireDefault(_router);
 
-	__webpack_require__(258);
+	__webpack_require__(254);
 
 	var MyEditor = (function (_React$Component) {
 	    _inherits(MyEditor, _React$Component);
@@ -26451,6 +26451,11 @@
 	var App = (function (_Component) {
 	    _inherits(App, _Component);
 
+	    /**
+	     * 构造器
+	     * @param props
+	     */
+
 	    function App(props) {
 	        _classCallCheck(this, App);
 
@@ -26470,11 +26475,21 @@
 	    _createClass(App, [{
 	        key: "render",
 	        value: function render() {
+	            var routes = this.props.routes;
+
+	            var curRouter = routes[routes.length - 1];
+	            var props = {
+	                curRouter: curRouter
+	            };
 	            return _react2["default"].createElement(
 	                "div",
 	                null,
-	                _react2["default"].createElement(_components.SideBar, null),
-	                this.props.content
+	                _react2["default"].createElement(_components.NavBar, props),
+	                _react2["default"].createElement(
+	                    "div",
+	                    { className: "main-container" },
+	                    this.props.content
+	                )
 	            );
 	        }
 	    }]);
@@ -26524,58 +26539,58 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
-	var _Detail = __webpack_require__(241);
+	var _Detail = __webpack_require__(242);
 
 	var _Detail2 = _interopRequireDefault(_Detail);
 
-	var _Post = __webpack_require__(242);
+	var _Post = __webpack_require__(243);
 
 	var _Post2 = _interopRequireDefault(_Post);
 
-	var _SideBar = __webpack_require__(243);
+	var _NavBar = __webpack_require__(244);
 
-	var _SideBar2 = _interopRequireDefault(_SideBar);
+	var _NavBar2 = _interopRequireDefault(_NavBar);
 
-	var _Archive = __webpack_require__(244);
+	var _Archive = __webpack_require__(245);
 
 	var _Archive2 = _interopRequireDefault(_Archive);
 
-	var _Tags = __webpack_require__(245);
+	var _Tags = __webpack_require__(246);
 
 	var _Tags2 = _interopRequireDefault(_Tags);
 
-	var _Tag = __webpack_require__(246);
+	var _Tag = __webpack_require__(247);
 
 	var _Tag2 = _interopRequireDefault(_Tag);
 
-	var _Upload = __webpack_require__(247);
+	var _Upload = __webpack_require__(248);
 
 	var _Upload2 = _interopRequireDefault(_Upload);
 
-	var _Login = __webpack_require__(248);
+	var _Login = __webpack_require__(249);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _Register = __webpack_require__(249);
+	var _Register = __webpack_require__(250);
 
 	var _Register2 = _interopRequireDefault(_Register);
 
-	var _UserCenter = __webpack_require__(250);
+	var _UserCenter = __webpack_require__(251);
 
 	var _UserCenter2 = _interopRequireDefault(_UserCenter);
 
-	var _Links = __webpack_require__(251);
+	var _Links = __webpack_require__(252);
 
 	var _Links2 = _interopRequireDefault(_Links);
 
-	var _NotFound = __webpack_require__(252);
+	var _NotFound = __webpack_require__(253);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
 	exports.Main = _Main2["default"];
 	exports.Detail = _Detail2["default"];
 	exports.Post = _Post2["default"];
-	exports.SideBar = _SideBar2["default"];
+	exports.NavBar = _NavBar2["default"];
 	exports.Archive = _Archive2["default"];
 	exports.Tags = _Tags2["default"];
 	exports.Tag = _Tag2["default"];
@@ -26616,7 +26631,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(260);
+	var _classnames = __webpack_require__(238);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -26626,7 +26641,7 @@
 
 	var _reactRedux = __webpack_require__(170);
 
-	var _actions = __webpack_require__(238);
+	var _actions = __webpack_require__(239);
 
 	var Actions = _interopRequireWildcard(_actions);
 
@@ -26712,7 +26727,7 @@
 	            var page = _props2.page;
 
 	            var targetPage = page - 1 == 0 ? 1 : page - 1;
-	            GetArticleList(page + 1);
+	            GetArticleList(targetPage);
 	        }
 
 	        /**
@@ -26764,11 +26779,11 @@
 	                    "li",
 	                    { className: (0, _classnames2["default"])({
 	                            "disabled": page == 1
-	                        }), "aria-label": "Previous", onClick: self.handlePrevPage.bind(self) },
+	                        }), key: +new Date(), "aria-label": "Previous", onClick: self.handlePrevPage.bind(self) },
 	                    _react2["default"].createElement(
 	                        _reactRouter.Link,
 	                        {
-	                            to: "javasctipt:;" },
+	                            to: "" },
 	                        "«"
 	                    )
 	                ));
@@ -26780,7 +26795,7 @@
 	                            }), key: i, onClick: self.handlePage.bind(self, i) },
 	                        _react2["default"].createElement(
 	                            _reactRouter.Link,
-	                            { to: "javasctipt:;" },
+	                            { to: "" },
 	                            i
 	                        )
 	                    ));
@@ -26789,10 +26804,10 @@
 	                    "li",
 	                    { className: (0, _classnames2["default"])({
 	                            "disabled": page == totalPage
-	                        }), "aria-label": "Next", onClick: self.handleNextPage.bind(self) },
+	                        }), key: +new Date() + 1, "aria-label": "Next", onClick: self.handleNextPage.bind(self) },
 	                    _react2["default"].createElement(
 	                        _reactRouter.Link,
-	                        { to: "javasctipt:;" },
+	                        { to: "" },
 	                        "»"
 	                    )
 	                ));
@@ -26917,7 +26932,7 @@
 
 	            return _react2["default"].createElement(
 	                "div",
-	                { className: "post-atricles" },
+	                null,
 	                this.rendList(list),
 	                this.renderPagenation()
 	            );
@@ -26952,6 +26967,61 @@
 /* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+
+	'use strict';
+
+	(function () {
+		'use strict';
+
+		var hasOwn = ({}).hasOwnProperty;
+
+		function classNames() {
+			var classes = [];
+
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+
+				var argType = typeof arg;
+
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+
+			return classes.join(' ');
+		}
+
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	})();
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -26966,7 +27036,7 @@
 
 	var _constants = __webpack_require__(234);
 
-	var _networkAPI = __webpack_require__(239);
+	var _networkAPI = __webpack_require__(240);
 
 	function GetArticleList(page) {
 	    var curPage = page;
@@ -27086,7 +27156,7 @@
 	function publishArticle() {}
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27103,7 +27173,7 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 
-	var _util = __webpack_require__(240);
+	var _util = __webpack_require__(241);
 
 	var util = _interopRequireWildcard(_util);
 
@@ -27212,7 +27282,7 @@
 	exports.requestMethods = requestMethods;
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports) {
 
 	/**
@@ -27279,7 +27349,7 @@
 	}
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27308,10 +27378,15 @@
 
 	var _reactRouter = __webpack_require__(181);
 
-	var _networkAPI = __webpack_require__(239);
+	var _networkAPI = __webpack_require__(240);
 
 	var Detail = (function (_Component) {
 	    _inherits(Detail, _Component);
+
+	    /**
+	     * 构造器
+	     * @param props
+	     */
 
 	    function Detail(props) {
 	        _classCallCheck(this, Detail);
@@ -27322,11 +27397,19 @@
 	        };
 	    }
 
+	    /**
+	     * 组件即将被实例化完成
+	     */
+
 	    _createClass(Detail, [{
 	        key: "componentDidMount",
 	        value: function componentDidMount() {
 	            this.fetchDetail();
 	        }
+
+	        /**
+	         * 查询文章详情
+	         */
 	    }, {
 	        key: "fetchDetail",
 	        value: function fetchDetail() {
@@ -27350,6 +27433,12 @@
 	                }
 	            });
 	        }
+
+	        /**
+	         * 选择文章的详细信息
+	         * @param detail    详细信息对象
+	         * @returns {XML}
+	         */
 	    }, {
 	        key: "renderBottomInfo",
 	        value: function renderBottomInfo(detail) {
@@ -27372,11 +27461,41 @@
 	                            "发布时间:",
 	                            detail["time"]["day"]
 	                        )
-	                    ),
-	                    _react2["default"].createElement("div", { className: "article-info" })
+	                    )
 	                );
 	            }
 	        }
+
+	        /**
+	         * 渲染评论列表
+	         * @param comments  评论对象数组
+	         * @returns {XML}
+	         */
+	    }, {
+	        key: "renderComments",
+	        value: function renderComments(comments) {
+	            var elements = undefined;
+	            if (comments && !comments.length) {
+	                elements = _react2["default"].createElement(
+	                    "p",
+	                    { className: "no-comment-tips" },
+	                    "本文暂无评论,快来做第一个评论的人吧!"
+	                );
+	            } else {
+	                elements = _react2["default"].createElement(
+	                    "p",
+	                    { className: "no-comment-tips" },
+	                    "本文暂无评论,快来做第一个评论的人吧!"
+	                );
+	            }
+	            return elements;
+	        }
+
+	        /**
+	         * 渲染文章正文及标题
+	         * @param detail    文章对象
+	         * @returns {*}
+	         */
 	    }, {
 	        key: "renderDetail",
 	        value: function renderDetail(detail) {
@@ -27423,7 +27542,8 @@
 	                "div",
 	                null,
 	                this.renderDetail(detail),
-	                this.renderBottomInfo(detail)
+	                this.renderBottomInfo(detail),
+	                this.renderComments(detail.comments)
 	            );
 	        }
 	    }]);
@@ -27435,7 +27555,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27470,7 +27590,7 @@
 
 	var _reactRedux = __webpack_require__(170);
 
-	var _actions = __webpack_require__(238);
+	var _actions = __webpack_require__(239);
 
 	var Actions = _interopRequireWildcard(_actions);
 
@@ -27524,7 +27644,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27553,13 +27673,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _classnames = __webpack_require__(238);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
 	var _redux = __webpack_require__(160);
 
 	var _reactRouter = __webpack_require__(181);
 
 	var _reactRedux = __webpack_require__(170);
 
-	var _actions = __webpack_require__(238);
+	var _actions = __webpack_require__(239);
 
 	var Actions = _interopRequireWildcard(_actions);
 
@@ -27597,16 +27721,16 @@
 	    "link": "/links"
 	}];
 
-	var SideBar = (function (_Component) {
-	    _inherits(SideBar, _Component);
+	var NavBar = (function (_Component) {
+	    _inherits(NavBar, _Component);
 
-	    function SideBar(props) {
-	        _classCallCheck(this, SideBar);
+	    function NavBar(props) {
+	        _classCallCheck(this, NavBar);
 
-	        _get(Object.getPrototypeOf(SideBar.prototype), "constructor", this).call(this, props);
+	        _get(Object.getPrototypeOf(NavBar.prototype), "constructor", this).call(this, props);
 	    }
 
-	    _createClass(SideBar, [{
+	    _createClass(NavBar, [{
 	        key: "componentWillMount",
 	        value: function componentWillMount() {
 	            this.props.CheckLogin();
@@ -27737,7 +27861,7 @@
 	        }
 	    }]);
 
-	    return SideBar;
+	    return NavBar;
 	})(_react.Component);
 
 	function mapStateToProps(state) {
@@ -27750,11 +27874,11 @@
 	    return (0, _redux.bindActionCreators)(Actions, dispatch);
 	}
 
-	exports["default"] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SideBar);
+	exports["default"] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NavBar);
 	module.exports = exports["default"];
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27783,10 +27907,15 @@
 
 	var _reactRouter = __webpack_require__(181);
 
-	var _networkAPI = __webpack_require__(239);
+	var _networkAPI = __webpack_require__(240);
 
 	var Archive = (function (_Component) {
 	    _inherits(Archive, _Component);
+
+	    /**
+	     * 构造器
+	     * @param props
+	     */
 
 	    function Archive(props) {
 	        _classCallCheck(this, Archive);
@@ -27796,6 +27925,10 @@
 	            archives: []
 	        };
 	    }
+
+	    /**
+	     * 组件即将被实例化完成,请求具体的目录
+	     */
 
 	    _createClass(Archive, [{
 	        key: "componentWillMount",
@@ -27815,6 +27948,12 @@
 	                }
 	            });
 	        }
+
+	        /**
+	         * 渲染目录
+	         * @param data
+	         * @returns {XML}
+	         */
 	    }, {
 	        key: "renderArchivesByDate",
 	        value: function renderArchivesByDate(data) {
@@ -27843,6 +27982,11 @@
 	                );
 	            }
 	        }
+
+	        /**
+	         * 组织数据,并且调用渲染分类的相关方法
+	         * @returns {XML}
+	         */
 	    }, {
 	        key: "renderArchives",
 	        value: function renderArchives() {
@@ -27858,12 +28002,27 @@
 	            });
 	            if (archives.length) {
 	                return _react2["default"].createElement(
-	                    "ul",
-	                    null,
+	                    "div",
+	                    { className: "panel panel-default" },
+	                    _react2["default"].createElement(
+	                        "div",
+	                        { className: "panel-heading" },
+	                        "Panel heading without title"
+	                    ),
+	                    _react2["default"].createElement(
+	                        "div",
+	                        { className: "panel-body" },
+	                        "Panel content"
+	                    ),
 	                    this.renderArchivesByDate(renderData)
 	                );
 	            }
 	        }
+
+	        /**
+	         * 渲染组件布局
+	         * @returns {XML}
+	         */
 	    }, {
 	        key: "render",
 	        value: function render() {
@@ -27884,7 +28043,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27913,7 +28072,7 @@
 
 	var _reactRouter = __webpack_require__(181);
 
-	var _networkAPI = __webpack_require__(239);
+	var _networkAPI = __webpack_require__(240);
 
 	var Tags = (function (_Component) {
 	    _inherits(Tags, _Component);
@@ -27989,7 +28148,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28018,7 +28177,7 @@
 
 	var _reactRouter = __webpack_require__(181);
 
-	var _networkAPI = __webpack_require__(239);
+	var _networkAPI = __webpack_require__(240);
 
 	var tag = (function (_Component) {
 	    _inherits(tag, _Component);
@@ -28085,7 +28244,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28150,7 +28309,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28185,7 +28344,7 @@
 
 	var _reactRedux = __webpack_require__(170);
 
-	var _actions = __webpack_require__(238);
+	var _actions = __webpack_require__(239);
 
 	var Actions = _interopRequireWildcard(_actions);
 
@@ -28275,7 +28434,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28310,7 +28469,7 @@
 
 	var _reactRedux = __webpack_require__(170);
 
-	var _actions = __webpack_require__(238);
+	var _actions = __webpack_require__(239);
 
 	var Actions = _interopRequireWildcard(_actions);
 
@@ -28413,7 +28572,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28478,7 +28637,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28543,7 +28702,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28601,9 +28760,40 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 253 */,
-/* 254 */,
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(255);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(257)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./site.min.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./site.min.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
 /* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(256)();
+	exports.push([module.id, ".main-container {\n    width: 1000px;\n    margin: 80px auto 0;\n}\n\n.item-title {\n    font-size: 18px;\n    font-weight: normal;\n}\n\n.item-title a {\n    transition: all 0.5s;\n    text-decoration: none;\n}\n\n.item-title a:hover {\n    color: #222;\n}\n\n.public-info {\n    margin: 0 10px 0 0;\n}\n\n.public-info span {\n    position: relative;\n    margin: 0 0 -5px 5px;\n    display: inline-block;\n}\n\n.post-texts {\n    margin: 0;\n}\n\n.atricle-title {\n    font-size:18px;\n    font-weight: normal;\n    margin: 0 0 10px 0;\n    padding: 10px;\n    border-bottom: 1px solid #aaa;\n}\n\n.article-content{\n    font-size: 14px;\n    line-height: 21px;\n    text-indent: 2em;\n}\n\n", ""]);
+
+/***/ },
+/* 256 */
 /***/ function(module, exports) {
 
 	/*
@@ -28658,7 +28848,7 @@
 	};
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -28881,95 +29071,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 257 */,
-/* 258 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(259);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(256)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./site.min.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./site.min.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(255)();
-	exports.push([module.id, ".post-atricles {\n    width: 800px;\n    margin: 80px auto 0;\n}\n\n.item-title {\n    font-size: 18px;\n    font-weight: normal;\n}\n\n.item-title a {\n    transition: all 0.5s;\n    text-decoration: none;\n}\n\n.item-title a:hover {\n    color: #222;\n}\n\n.public-info{\n    margin: 0 10px 0 0;\n}\n\n.public-info span{\n    position: relative;\n    margin: 0 0 -5px 5px;\n    display: inline-block;\n}\n\n.post-texts{\n    margin: 0;\n}", ""]);
-
-/***/ },
-/* 260 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
-	  Licensed under the MIT License (MIT), see
-	  http://jedwatson.github.io/classnames
-	*/
-	/* global define */
-
-	'use strict';
-
-	(function () {
-		'use strict';
-
-		var hasOwn = ({}).hasOwnProperty;
-
-		function classNames() {
-			var classes = [];
-
-			for (var i = 0; i < arguments.length; i++) {
-				var arg = arguments[i];
-				if (!arg) continue;
-
-				var argType = typeof arg;
-
-				if (argType === 'string' || argType === 'number') {
-					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
-				} else if (argType === 'object') {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				}
-			}
-
-			return classes.join(' ');
-		}
-
-		if (typeof module !== 'undefined' && module.exports) {
-			module.exports = classNames;
-		} else if (true) {
-			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-				return classNames;
-			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else {
-			window.classNames = classNames;
-		}
-	})();
 
 /***/ }
 /******/ ]);

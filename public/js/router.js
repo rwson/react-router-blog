@@ -14,7 +14,7 @@ import {
     Main,
     Detail,
     Post,
-    SideBar,
+    NavBar,
     Archive,
     Tags,
     Tag,
@@ -34,6 +34,10 @@ import {
 
 class App extends Component {
 
+    /**
+     * 构造器
+     * @param props
+     */
     constructor(props) {
         super(props);
     }
@@ -43,10 +47,17 @@ class App extends Component {
      * @returns {XML}
      */
     render() {
+        const {routes} = this.props;
+        const curRouter = routes[routes.length - 1];
+        const props = {
+            curRouter:curRouter
+        };
         return (
             <div>
-                <SideBar />
-                {this.props.content}
+                <NavBar {...props}/>
+                <div className="main-container">
+                    {this.props.content}
+                </div>
             </div>
         );
     }

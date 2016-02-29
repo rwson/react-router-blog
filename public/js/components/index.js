@@ -7,7 +7,7 @@
 import Main from "./Main";
 import Detail from "./Detail";
 import Post from "./Post";
-import SideBar from "./SideBar";
+import NavBar from "./NavBar";
 import Archive from "./Archive";
 import Tags from "./Tags";
 import Tag from "./Tag";
@@ -22,7 +22,7 @@ export {
     Main,
     Detail,
     Post,
-    SideBar,
+    NavBar,
     Archive,
     Tags,
     Tag,

@@ -1,5 +1,5 @@
-.post-atricles {
-    width: 800px;
+.main-container {
+    width: 1000px;
     margin: 80px auto 0;
 }
 
@@ -17,16 +17,31 @@
     color: #222;
 }
 
-.public-info{
+.public-info {
     margin: 0 10px 0 0;
 }
 
-.public-info span{
+.public-info span {
     position: relative;
     margin: 0 0 -5px 5px;
     display: inline-block;
 }
 
-.post-texts{
+.post-texts {
     margin: 0;
 }
+
+.atricle-title {
+    font-size:18px;
+    font-weight: normal;
+    margin: 0 0 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid #aaa;
+}
+
+.article-content{
+    font-size: 14px;
+    line-height: 21px;
+    text-indent: 2em;
+}
+

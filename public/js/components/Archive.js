@@ -10,6 +10,10 @@ import {requestMethods,requestUrls} from "../networkAPI";
 
 export default class Archive extends Component {
 
+    /**
+     * 构造器
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -17,6 +21,9 @@ export default class Archive extends Component {
         };
     }
 
+    /**
+     * 组件即将被实例化完成,请求具体的目录
+     */
     componentWillMount() {
         requestMethods.GetRequest({
             url: requestUrls.getArchives,
@@ -32,6 +39,11 @@ export default class Archive extends Component {
         });
     }
 
+    /**
+     * 渲染目录
+     * @param data
+     * @returns {XML}
+     */
     renderArchivesByDate(data){
         for(let item in data){
             let curData = data[item];
@@ -51,6 +63,10 @@ export default class Archive extends Component {
         }
     }
 
+    /**
+     * 组织数据,并且调用渲染分类的相关方法
+     * @returns {XML}
+     */
     renderArchives() {
         const {archives} = this.state;
         let renderData = {};
@@ -63,13 +79,21 @@ export default class Archive extends Component {
         });
         if (archives.length) {
             return (
-                <ul>
-                    {this.renderArchivesByDate(renderData)}
-                </ul>
+            <div className="panel panel-default">
+                <div className="panel-heading">Panel heading without title</div>
+                <div className="panel-body">
+                    Panel content
+                </div>
+                {this.renderArchivesByDate(renderData)}
+            </div>
             );
         }
     }
 
+    /**
+     * 渲染组件布局
+     * @returns {XML}
+     */
     render() {
         const {archives} = this.state;
         return (

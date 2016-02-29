@@ -53,7 +53,7 @@ class Main extends Component {
     handlePrevPage() {
         const {GetArticleList,page} = this.props;
         let targetPage = page - 1 == 0 ? 1 : page - 1;
-        GetArticleList(page + 1);
+        GetArticleList(targetPage);
     }
 
     /**
@@ -86,16 +86,16 @@ class Main extends Component {
             let links = [];
             links.push(<li className={classnames({
                     "disabled":page == 1
-                })} aria-label="Previous" onClick={self.handlePrevPage.bind(self)}><Link
-                to={"javasctipt:;"}>&laquo;</Link></li>);
+                })} key={+new Date()} aria-label="Previous" onClick={self.handlePrevPage.bind(self)}><Link
+                to={""}>&laquo;</Link></li>);
             for (let i = 1; i <= totalPage; i++) {
                 links.push(<li className={classnames({
                     "disabled":i == page
-                })} key={i} onClick={self.handlePage.bind(self,i)}><Link to={"javasctipt:;"}>{i}</Link></li>);
+                })} key={i} onClick={self.handlePage.bind(self,i)}><Link to={""}>{i}</Link></li>);
             }
             links.push(<li className={classnames({
                     "disabled":page == totalPage
-                })} aria-label="Next" onClick={self.handleNextPage.bind(self)}><Link to={"javasctipt:;"}>&raquo;</Link>
+                })} key={+new Date() + 1} aria-label="Next" onClick={self.handleNextPage.bind(self)}><Link to={""}>&raquo;</Link>
             </li>);
             return links;
         }
@@ -184,7 +184,7 @@ class Main extends Component {
     render() {
         const {list} = this.props;
         return (
-            <div className="post-atricles">
+            <div>
                 {this.rendList(list)}
                 {this.renderPagenation()}
             </div>

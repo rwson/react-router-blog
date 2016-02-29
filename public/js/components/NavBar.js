@@ -5,6 +5,7 @@
 "use strict";
 
 import React,{Component} from "react";
+import classnames from "classnames";
 import {bindActionCreators} from "redux";
 import {Route,Link} from "react-router";
 import {connect} from "react-redux";
@@ -52,7 +53,8 @@ let menuList = [
     }
 ];
 
-class SideBar extends Component {
+class NavBar extends Component {
+
     constructor(props) {
         super(props);
     }
@@ -157,5 +159,5 @@ function mapDispatchToProps(dispatch){
     return bindActionCreators(Actions,dispatch);
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(SideBar);
+export default connect(mapStateToProps,mapDispatchToProps)(NavBar);
 
