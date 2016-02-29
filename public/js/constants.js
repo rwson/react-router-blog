@@ -27,6 +27,12 @@ export default ({
     //  下一页
     NEXT_PAGE:"NEXT_PAGE",
 
+    //  上一页
+    PREV_PAGE:"PREV_PAGE",
+
+    //  跳转到某一页
+    JUMP_PAGE:"JUMP_PAGE",
+
     //  分类标签
     TAGS:"TAGS",
 

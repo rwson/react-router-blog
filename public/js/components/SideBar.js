@@ -110,17 +110,17 @@ class SideBar extends Component {
                 }
             ]).map((item, index) => {
                     return item["type"] == "link" ? (
-                        <span key={index}><Link to={item["link"]}>{item["name"]}</Link></span>
+                        <li key={index}><Link to={item["link"]}>{item["name"]}</Link></li>
                     ) : (
-                        <span key={index} onClick={this[item["event"]].bind(this)}>{item["name"]}</span>
+                        <li key={index}><Link to={"javascript:;"} onColck={this[item["event"]].bind(this)} >{item["name"]}</Link></li>
                     );
                 });
         }
         return menuList.map((item, index) => {
             return item["type"] == "link" ? (
-                <span key={index}><Link to={item["link"]}>{item["name"]}</Link></span>
+                <li key={index}><Link to={item["link"]}>{item["name"]}</Link></li>
             ) : (
-                <span key={index} onClick={this[item["event"]].bind(this)}>{item["name"]}</span>
+                <li key={index}><Link to={"javascript:;"} onColck={this[item["event"]].bind(this)} >{item["name"]}</Link></li>
             );
         });
     }
@@ -131,18 +131,17 @@ class SideBar extends Component {
      */
     render() {
         return (
-            <div>
-                <nav>
-                    {this.renderMenuItem()}
-                    <div>
-                        <h3>搜索</h3>
-
-                        <form action="/search">
-                            <input type="text" maxLength="10" name="keyword" placeholder="请输入搜索内容"/>
-                            <input type="submit" value="搜索"/>
-                        </form>
+            <div className="navbar navbar-inverse navbar-fixed-top">
+                <div className="container">
+                    <div className="navbar-collapse collapse" role="navigation">
+                        <ul className="nav navbar-nav">
+                            {this.renderMenuItem()}
+                        </ul>
+                        <ul className="nav navbar-nav navbar-right hidden-sm">
+                            <li><Link to={"/search"}>Search</Link></li>
+                        </ul>
                     </div>
-                </nav>
+                </div>
             </div>
         );
     }
@@ -159,3 +158,4 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(SideBar);
+

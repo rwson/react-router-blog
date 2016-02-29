@@ -17,8 +17,19 @@ import {routerReducer,routerMiddleware} from "react-router-redux";
 import reducers from "./reducers";
 import getRoutes from "./router";
 
-import "../css/style.css";
-import "../css/Draft.css";
+import "../css/site.min.css";
+
+class MyEditor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {editorState: EditorState.createEmpty()};
+        this.onChange = (editorState) => this.setState({editorState});
+    }
+    render() {
+        const {editorState} = this.state;
+        return <Editor editorState={editorState} onChange={this.onChange} />;
+    }
+}
 
 const reducer = combineReducers({
     reducers,
@@ -33,7 +44,7 @@ const store = createStore(
 const history = createBrowserHistory();
 
 ReactDOM.render(
-    <div>
+    <div className="container">
         <Provider store={store}>
             <Router history={history} routes={getRoutes()}/>
         </Provider>

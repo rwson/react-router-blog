@@ -1,6 +1,6 @@
 "use strict";
 
-import {ARTICLE_LIST,LOGIN_SUCCESS,REQUEST_FAIL,REGISTER_SUCCESS} from "../constants";
+import {ARTICLE_LIST,LOGIN_SUCCESS,REQUEST_FAIL,REGISTER_SUCCESS,NEXT_PAGE,PREV_PAGE,JUMP_PAGE} from "../constants";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export function GetArticleList(page) {
@@ -14,7 +14,8 @@ export function GetArticleList(page) {
             return dispatch({
                 type: ARTICLE_LIST,
                 list: res.data,
-                totalPage:res.total
+                totalPage: res.total,
+                page: curPage
             });
         },
         error: (ex) => {
@@ -48,37 +49,37 @@ export function Login(username, password) {
     });
 }
 
-export function CheckLogin(){
+export function CheckLogin() {
     return dispatch => requestMethods.PostRequest({
-        url:requestUrls.checkLogin,
-        success:(res) => {
+        url: requestUrls.checkLogin,
+        success: (res) => {
             return dispatch({
                 type: LOGIN_SUCCESS,
                 user: res.user
             });
         },
-        error:(ex) => {
+        error: (ex) => {
             return dispatch({
                 type: REQUEST_FAIL,
-                ex:ex
+                ex: ex
             });
         }
     });
 }
 
-export function logOut(){
+export function logOut() {
     return dispatch => requestMethods.PostRequest({
-        url:requestUrls.logout,
-        success:(res) => {
+        url: requestUrls.logout,
+        success: (res) => {
             return dispatch({
                 type: LOGIN_SUCCESS,
                 user: res.user
             });
         },
-        error:(ex) => {
+        error: (ex) => {
             return dispatch({
                 type: REQUEST_FAIL,
-                ex:ex
+                ex: ex
             });
         }
     });
@@ -107,5 +108,5 @@ export function Register(username, password, email) {
     });
 }
 
-export function publishArticle(){
+export function publishArticle() {
 }
