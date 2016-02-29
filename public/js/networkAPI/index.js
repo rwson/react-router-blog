@@ -82,7 +82,7 @@ export const requestMethods = ({
     "GetRequest": (opts) => {
         fetch(opts.url, {
             ...httpDefault,
-            "method": "GET",
+            "method": "GET"
         }).then((res) => {
             return res.json();
         }).then((res) => {

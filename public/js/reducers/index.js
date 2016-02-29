@@ -7,11 +7,12 @@
 import {ARTICLE_LIST,LOGIN_SUCCESS,REGISTER_SUCCESS} from "../constants";
 
 const initialState = {
-    isLogined: false,
-    page: 1,
-    totalPage: 1,
-    user: {},
-    list: []
+    isLogined: false,   //  是否登录
+    isAdmin:false,      //  是否为管理员
+    page: 1,            //  当前页码
+    totalPage: 1,       //  总页码
+    user: {},           //  用户对象
+    list: []            //  首页文章数据
 };
 
 export default function reducer(state = initialState, action) {

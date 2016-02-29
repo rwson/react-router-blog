@@ -115,17 +115,14 @@ class Main extends Component {
      * @returns {*}
      */
     rendTags(tags) {
-        let tagsLength = tags.length - 1;
-        let lastTag = tags[tagsLength];
         return tags.join("").length ? (
-
             <span className="public-info">
                 <i className="fa fa-user"></i>
                 {
                     tags.map((tag, index) => {
                         return tag ? (
-                            <Link to={"/tags/" + tag}
-                                  key={tag}>{tag + (index !== tagsLength && !!lastTag) ? "、" : ""}</Link>
+                            <Link className="tag-name" to={"/tags/" + tag}
+                                  key={tag}>{tag}</Link>
                         ) : "";
                     })
                 }
@@ -145,19 +142,16 @@ class Main extends Component {
                 <div className="post-contents" key={item["_id"]}>
                     <div className="panel panel-default">
                         <div className="panel-heading"><Link
+                            className="article-link"
                             to={"/u/" + item["name"] + "/" + item["time"]["day"] + "/" + item["title"]}>{item["title"]}</Link>
                         </div>
                         <div className="panel-body">
-                            <p className="post-texts">{item["post"].substr(0, 30) || "暂无内容"}</p>
+                            <div className="post-texts">{item["post"] || "暂无内容"}</div>
                         </div>
                         <div className="panel-footer">
                             <span className="public-info">
                                 <i className="fa fa-calendar"></i>
-                                {item["time"]["day"]}
-                            </span>
-                            <span className="public-info">
-                                <i className="fa fa-user"></i>
-                                {item["name"]}
+                                {item["time"]["date"].substr(0,10)}
                             </span>
                             {this.rendTags(item["tags"])}
                         </div>

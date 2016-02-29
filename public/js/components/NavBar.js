@@ -17,38 +17,43 @@ import * as Actions from "../actions";
  */
 let menuList = [
     {
-        "name": "Home",
-        "type":"link",
+        "name": "首页",
+        "type": "link",
         "link": "/"
     },
     {
-        "name": "Archive",
-        "type":"link",
+        "name": "存档",
+        "type": "link",
         "link": "/archive"
     },
     {
-        "name": "Tags",
-        "type":"link",
+        "name": "标签",
+        "type": "link",
         "link": "/tags"
     },
     {
-        "name":"Post",
-        "type":"link",
-        "link":"/post"
+        "name": "发表",
+        "type": "link",
+        "link": "/post"
     },
     {
-        "name": "Register",
-        "type":"link",
+        "name": "注册",
+        "type": "link",
         "link": "/register"
     },
     {
-        "name": "Login",
-        "type":"link",
+        "name": "登录",
+        "type": "link",
         "link": "/login"
     },
     {
-        "name": "Links",
-        "type":"link",
+        "name": "关于",
+        "type": "link",
+        "link": "/about"
+    },
+    {
+        "name": "友情链接",
+        "type": "link",
         "link": "/links"
     }
 ];
@@ -57,13 +62,16 @@ class NavBar extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            curNav: "/"
+        };
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.CheckLogin();
     }
 
-    handleLogout(){
+    handleLogout() {
         this.props.logOut();
     }
 
@@ -72,57 +80,63 @@ class NavBar extends Component {
      * @returns {Array}
      */
     renderMenuItem() {
+        let pathname = location.pathname;
         if (this.props.isLogined) {
             return ([
                 {
-                    "name": "Home",
-                    "type":"link",
+                    "name": "首页",
+                    "type": "link",
                     "link": "/"
                 },
                 {
-                    "name": "Archive",
-                    "type":"link",
+                    "name": "存档",
+                    "type": "link",
                     "link": "/archive"
                 },
                 {
-                    "name": "Tags",
-                    "type":"link",
+                    "name": "分类",
+                    "type": "link",
                     "link": "/tags"
                 },
                 {
-                    "name":"Post",
-                    "type":"link",
-                    "link":"/post"
+                    "name": "发表",
+                    "type": "link",
+                    "link": "/post"
                 },
                 {
-                    "name": "User Center",
-                    "type":"link",
+                    "name": "用户中心",
+                    "type": "link",
                     "link": "/userCenter"
                 },
                 {
-                    "name": "Logout",
-                    "type":"event",
-                    "event":"handleLogout",
-                    "link": "/logout"
+                    "name": "登出",
+                    "type": "event",
+                    "event": "handleLogout"
                 },
                 {
-                    "name": "Links",
-                    "type":"link",
+                    "name": "友情链接",
+                    "type": "link",
                     "link": "/links"
                 }
             ]).map((item, index) => {
                     return item["type"] == "link" ? (
-                        <li key={index}><Link to={item["link"]}>{item["name"]}</Link></li>
+                        <li key={index} className={classnames({
+                                        "cur-tab":(pathname == item["link"]) || (pathname.match(new RegExp('\^' + item["link"] + '\\b'),"g") !== null && pathname !== "/")
+                })}><Link to={item["link"]}>{item["name"]}</Link></li>
                     ) : (
-                        <li key={index}><Link to={"javascript:;"} onColck={this[item["event"]].bind(this)} >{item["name"]}</Link></li>
+                        <li key={index}><Link to={"javascript:;"}
+                                              onColck={this[item["event"]].bind(this)}>{item["name"]}</Link></li>
                     );
                 });
         }
         return menuList.map((item, index) => {
             return item["type"] == "link" ? (
-                <li key={index}><Link to={item["link"]}>{item["name"]}</Link></li>
+                <li key={index} className={classnames({
+                                        "cur-tab":(pathname == item["link"]) || (pathname.match(new RegExp('\^' + item["link"] + '\\b'),"g") !== null && pathname !== "/")
+                })}><Link to={item["link"]}>{item["name"]}</Link></li>
             ) : (
-                <li key={index}><Link to={"javascript:;"} onColck={this[item["event"]].bind(this)} >{item["name"]}</Link></li>
+                <li key={index}><Link to={"javascript:;"}
+                                      onColck={this[item["event"]].bind(this)}>{item["name"]}</Link></li>
             );
         });
     }
@@ -133,14 +147,13 @@ class NavBar extends Component {
      */
     render() {
         return (
-            <div className="navbar navbar-inverse navbar-fixed-top">
-                <div className="container">
-                    <div className="navbar-collapse collapse" role="navigation">
-                        <ul className="nav navbar-nav">
+            <div className="app_nav">
+                <div className="nav_mask"></div>
+                <div className="nav_body">
+                    <div className="grid-row">
+                        <ul className="nav">
+                            <li><Link className="nav_logo" to="/"><i className="l-icon l-icon-layLogo"></i></Link></li>
                             {this.renderMenuItem()}
-                        </ul>
-                        <ul className="nav navbar-nav navbar-right hidden-sm">
-                            <li><Link to={"/search"}>Search</Link></li>
                         </ul>
                     </div>
                 </div>
@@ -149,15 +162,15 @@ class NavBar extends Component {
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
     return {
-        isLogined:state.reducers.isLogined
+        isLogined: state.reducers.isLogined
     };
 }
 
-function mapDispatchToProps(dispatch){
-    return bindActionCreators(Actions,dispatch);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(Actions, dispatch);
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
 

@@ -17,7 +17,7 @@ import {routerReducer,routerMiddleware} from "react-router-redux";
 import reducers from "./reducers";
 import getRoutes from "./router";
 
-import "../css/site.min.css";
+//import "../css/site.css";
 
 class MyEditor extends React.Component {
     constructor(props) {

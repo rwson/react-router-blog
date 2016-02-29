@@ -7,5 +7,9 @@ module.exports = {
 	"db":"blog",
 	"host":"localhost",
 	"avatarDir":"./public/images/faces",
-	"staticPath":"./public"
+	"staticPath":"./public",
+	"admin":{
+		"username":"rwson",
+		"password":"s87654321"
+	}
 };
