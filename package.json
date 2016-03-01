@@ -29,7 +29,7 @@
     "history": "^1.13.1",
     "jsx-loader": "^0.13.2",
     "markdown": "*",
-    "mongodb": "*",
+    "mongoose": "^4.4.5",
     "object-assign": "^3.0.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.2",

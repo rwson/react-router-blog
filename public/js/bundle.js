@@ -26503,7 +26503,7 @@
 	        _reactRouter.Route,
 	        { path: "/", component: App },
 	        _react2["default"].createElement(_reactRouter.IndexRoute, { components: { content: _components.Main } }),
-	        _react2["default"].createElement(_reactRouter.Route, { path: "/u/:name/:day/:title", components: { content: _components.Detail } }),
+	        _react2["default"].createElement(_reactRouter.Route, { path: "/article/detail/:id", components: { content: _components.Detail } }),
 	        _react2["default"].createElement(_reactRouter.Route, { path: "archive", components: { content: _components.Archive } }),
 	        _react2["default"].createElement(_reactRouter.Route, { path: "tags", components: { content: _components.Tags } }),
 	        _react2["default"].createElement(_reactRouter.Route, { path: "tag/:tag", components: { content: _components.Tag } }),
@@ -26873,7 +26873,7 @@
 	                                _reactRouter.Link,
 	                                {
 	                                    className: "article-link",
-	                                    to: "/u/" + item["name"] + "/" + item["time"]["day"] + "/" + item["title"] },
+	                                    to: "/article/detail/" + item["_id"] },
 	                                item["title"]
 	                            )
 	                        ),
@@ -27409,13 +27409,10 @@
 	        value: function fetchDetail() {
 	            var _this = this;
 
-	            var _props$params = this.props.params;
-	            var name = _props$params.name;
-	            var day = _props$params.day;
-	            var title = _props$params.title;
+	            var id = this.props.params.id;
 
 	            _networkAPI.requestMethods.GetRequest({
-	                url: _networkAPI.requestUrls.articleDetail + "/" + name + "/" + day + "/" + title,
+	                url: _networkAPI.requestUrls.articleDetail + "/" + id,
 	                success: function success(res) {
 	                    _this.setState({
 	                        detail: res.detail
@@ -27782,10 +27779,17 @@
 	                    "type": "link",
 	                    "link": "/links"
 	                }].map(function (item, index) {
+	                    var match = pathname.match(new RegExp("\^" + item["link"] + "\\b"));
+	                    var needActive = false;
+	                    if (match) {
+	                        needActive = match[0].length > 1;
+	                    } else if (match === null) {
+	                        needActive = pathname === item["link"];
+	                    }
 	                    return item["type"] == "link" ? _react2["default"].createElement(
 	                        "li",
 	                        { key: index, className: (0, _classnames2["default"])({
-	                                "cur-tab": pathname == item["link"] || pathname.match(new RegExp('\^' + item["link"] + '\\b'), "g") !== null && pathname !== "/"
+	                                "cur-tab": needActive
 	                            }) },
 	                        _react2["default"].createElement(
 	                            _reactRouter.Link,
@@ -27805,10 +27809,17 @@
 	                });
 	            }
 	            return menuList.map(function (item, index) {
+	                var match = pathname.match(new RegExp("\^" + item["link"] + "\\b"));
+	                var needActive = false;
+	                if (match) {
+	                    needActive = match[0].length > 1;
+	                } else if (match === null) {
+	                    needActive = pathname === item["link"];
+	                }
 	                return item["type"] == "link" ? _react2["default"].createElement(
 	                    "li",
 	                    { key: index, className: (0, _classnames2["default"])({
-	                            "cur-tab": pathname == item["link"] || pathname.match(new RegExp('\^' + item["link"] + '\\b'), "g") !== null && pathname !== "/"
+	                            "cur-tab": needActive
 	                        }) },
 	                    _react2["default"].createElement(
 	                        _reactRouter.Link,

@@ -71,7 +71,7 @@ export default function getRoutes() {
     return (
         <Route path="/" component={App}>
             <IndexRoute components={{content: Main}}/>
-            <Route path="/u/:name/:day/:title" components={{content: Detail}}/>
+            <Route path="/article/detail/:id" components={{content: Detail}}/>
             <Route path="archive" components={{content: Archive}}/>
             <Route path="tags" components={{content: Tags}}/>
             <Route path="tag/:tag" components={{content: Tag}}/>

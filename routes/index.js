@@ -21,6 +21,7 @@ module.exports = function (app) {
                     "status": "error",
                     "data": []
                 });
+                return;
             }
             //  获取失败
 
@@ -35,19 +36,19 @@ module.exports = function (app) {
     /**
      * 文章详细
      */
-    app.get("/article/detail/:name/:day/:title", function (req, res) {
-        var name = req.params.name,
-            day = req.params.day,
-            title = req.params.title;
+    app.get("/article/detail/:id", function (req, res) {
+        var id = req.params.id;
 
-        Post.getOne(name, day, title, function (err, post) {
+        Post.getOne(id, function (err, post) {
             //	从数据库查询一条记录
 
             if (err) {
                 res.send(500, {
                     "status": "error",
-                    "message": "server error"
+                    "message": "server error",
+                    "error":err
                 });
+                return;
             }
             //	查询失败
 
@@ -109,6 +110,7 @@ module.exports = function (app) {
                 "status": "error",
                 "message": "你还没登录"
             });
+            return;
         }
         res.send(200, {
             "status": "success",
@@ -141,6 +143,7 @@ module.exports = function (app) {
                     "status": "error",
                     "message": "用户名已存在"
                 });
+                return;
             }
             //	用户名已经存在
 
@@ -149,8 +152,10 @@ module.exports = function (app) {
                 if (err) {
                     res.send(500, {
                         "status": "error",
-                        "message": "server error"
+                        "message": "server error",
+                        "error":err
                     });
+                    return;
                 }
 
                 req.session.user = user;
@@ -176,8 +181,10 @@ module.exports = function (app) {
             if (err) {
                 res.send(500, {
                     "status": "error",
-                    "message": "server error"
+                    "message": "server error",
+                    "error":err
                 });
+                return;
             }
             //  读取失败
 
@@ -199,8 +206,10 @@ module.exports = function (app) {
             if (err) {
                 res.send(500,{
                     "status": "error",
-                    "message": "server error"
+                    "message": "server error",
+                    "error":err
                 });
+                return;
             }
             //  查询失败
 
@@ -221,8 +230,10 @@ module.exports = function (app) {
             if (err) {
                 res.send(500,{
                     "status": "error",
-                    "message": "server error"
+                    "message": "server error",
+                    "error":err
                 });
+                return;
             }
             //  查询失败
 

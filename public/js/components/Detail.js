@@ -32,9 +32,9 @@ export default class Detail extends Component {
      * 查询文章详情
      */
     fetchDetail() {
-        const {name,day,title} = this.props.params;
+        const {id} = this.props.params;
         requestMethods.GetRequest({
-            url: `${requestUrls.articleDetail}/${name}/${day}/${title}`,
+            url: `${requestUrls.articleDetail}/${id}`,
             success: (res) => {
                 this.setState({
                     detail: res.detail

@@ -119,9 +119,16 @@ class NavBar extends Component {
                     "link": "/links"
                 }
             ]).map((item, index) => {
+                    const match = pathname.match(new RegExp("\^" + item["link"] + "\\b"));
+                    let needActive = false;
+                    if (match) {
+                        needActive = match[0].length > 1;
+                    } else if (match === null) {
+                        needActive = pathname === item["link"];
+                    }
                     return item["type"] == "link" ? (
                         <li key={index} className={classnames({
-                                        "cur-tab":(pathname == item["link"]) || (pathname.match(new RegExp('\^' + item["link"] + '\\b'),"g") !== null && pathname !== "/")
+                                        "cur-tab": needActive
                 })}><Link to={item["link"]}>{item["name"]}</Link></li>
                     ) : (
                         <li key={index}><Link to={"javascript:;"}
@@ -130,9 +137,16 @@ class NavBar extends Component {
                 });
         }
         return menuList.map((item, index) => {
+            const match = pathname.match(new RegExp("\^" + item["link"] + "\\b"));
+            let needActive = false;
+            if (match) {
+                needActive = match[0].length > 1;
+            } else if (match === null) {
+                needActive = pathname === item["link"];
+            }
             return item["type"] == "link" ? (
                 <li key={index} className={classnames({
-                                        "cur-tab":(pathname == item["link"]) || (pathname.match(new RegExp('\^' + item["link"] + '\\b'),"g") !== null && pathname !== "/")
+                                        "cur-tab":needActive
                 })}><Link to={item["link"]}>{item["name"]}</Link></li>
             ) : (
                 <li key={index}><Link to={"javascript:;"}

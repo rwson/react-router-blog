@@ -143,7 +143,7 @@ class Main extends Component {
                     <div className="panel panel-default">
                         <div className="panel-heading"><Link
                             className="article-link"
-                            to={"/u/" + item["name"] + "/" + item["time"]["day"] + "/" + item["title"]}>{item["title"]}</Link>
+                            to={"/article/detail/" + item["_id"]}>{item["title"]}</Link>
                         </div>
                         <div className="panel-body">
                             <div className="post-texts">{item["post"] || "暂无内容"}</div>
