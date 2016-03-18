@@ -28,6 +28,7 @@ class Main extends Component {
      * 组件即将被初始化完成,请求数据
      */
     componentWillMount() {
+        alert(11);
         const {GetArticleList,startGetList,page} = this.props;
         startGetList();
         GetArticleList(page);

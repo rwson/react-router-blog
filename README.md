@@ -4,7 +4,7 @@ React router + redux + Express(3.x) + mongodb的博客
 
 *developing*
 
-## how to use 
+##usage
 
 
 ```
@@ -19,3 +19,8 @@ webpack --watch
 node app.js
     
 ```
+
+###Todo
+
+- server rendeing
+- component code

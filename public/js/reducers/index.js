@@ -16,6 +16,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case ARTICLE_LIST:
+            alert(111);
             state = Object.assign({}, res, {
                 list: action.list,
                 page: action.page,
