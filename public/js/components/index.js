@@ -11,7 +11,7 @@ import NavBar from "./NavBar";
 import Archive from "./Archive";
 import Tags from "./Tags";
 import Tag from "./Tag";
-import Upload from "./Upload";
+import Category from "./Category";
 import Login from "./Login";
 import Register from "./Register";
 import UserCenter from "./UserCenter";
@@ -26,7 +26,7 @@ export {
     Archive,
     Tags,
     Tag,
-    Upload,
+    Category,
     Login,
     Register,
     UserCenter,

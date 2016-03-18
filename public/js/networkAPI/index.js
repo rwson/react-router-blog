@@ -39,19 +39,15 @@ const prefUri = "/";
 
 //  http请求路径
 export const requestUrls = {
-    "articleList": `${prefUri}article/list`,
-    "articleDetail": `${prefUri}article/detail`,
-    "register": `${prefUri}register`,
-    "login": `${prefUri}login`,
-    "checkLogin":`${prefUri}checkLogin`,
-    "logout": `${prefUri}logout`,
+    "articleList": `${prefUri}articles/list`,
+    "articleDetail": `${prefUri}articles/detail`,
     "tags": `${prefUri}allTags`,
     "tag": `${prefUri}tag/articles`,
     "postArticle": `${prefUri}postArticle`,
     "updateArticle": `${prefUri}updateArticle`,
     "deleteArticle": `${prefUri}deleteArticle`,
     "getArchives": `${prefUri}archives`,
-    "getUserInfo":`${prefUri}getUserInfo`
+    "getCategory":`${prefUri}allCategory`
 };
 
 //  POST、GET、DELETE请求方法配置

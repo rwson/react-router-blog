@@ -4,61 +4,14 @@
 
 "use strict";
 
-import React,{Component} from "react";
+import React,{Component,PropTypes} from "react";
 import classnames from "classnames";
 import {bindActionCreators} from "redux";
 import {Route,Link} from "react-router";
 import {connect} from "react-redux";
 import * as Actions from "../actions";
 
-/**
- * 菜单项配置
- * @type {*[]}
- */
-let menuList = [
-    {
-        "name": "首页",
-        "type": "link",
-        "link": "/"
-    },
-    {
-        "name": "存档",
-        "type": "link",
-        "link": "/archive"
-    },
-    {
-        "name": "标签",
-        "type": "link",
-        "link": "/tags"
-    },
-    {
-        "name": "发表",
-        "type": "link",
-        "link": "/post"
-    },
-    {
-        "name": "注册",
-        "type": "link",
-        "link": "/register"
-    },
-    {
-        "name": "登录",
-        "type": "link",
-        "link": "/login"
-    },
-    {
-        "name": "关于",
-        "type": "link",
-        "link": "/about"
-    },
-    {
-        "name": "友情链接",
-        "type": "link",
-        "link": "/links"
-    }
-];
-
-class NavBar extends Component {
+export default class NavBar extends Component {
 
     constructor(props) {
         super(props);
@@ -66,125 +19,79 @@ class NavBar extends Component {
             curNav: "/"
         };
     }
-
-    componentWillMount() {
-        this.props.CheckLogin();
-    }
-
-    handleLogout() {
-        this.props.logOut();
-    }
-
-    /**
-     * 渲染菜单数组
-     * @returns {Array}
-     */
-    renderMenuItem() {
-        let pathname = location.pathname;
-        if (this.props.isLogined) {
-            return ([
-                {
-                    "name": "首页",
-                    "type": "link",
-                    "link": "/"
-                },
-                {
-                    "name": "存档",
-                    "type": "link",
-                    "link": "/archive"
-                },
-                {
-                    "name": "分类",
-                    "type": "link",
-                    "link": "/tags"
-                },
-                {
-                    "name": "发表",
-                    "type": "link",
-                    "link": "/post"
-                },
-                {
-                    "name": "用户中心",
-                    "type": "link",
-                    "link": "/userCenter"
-                },
-                {
-                    "name": "登出",
-                    "type": "event",
-                    "event": "handleLogout"
-                },
-                {
-                    "name": "友情链接",
-                    "type": "link",
-                    "link": "/links"
-                }
-            ]).map((item, index) => {
-                    const match = pathname.match(new RegExp("\^" + item["link"] + "\\b"));
-                    let needActive = false;
-                    if (match) {
-                        needActive = match[0].length > 1;
-                    } else if (match === null) {
-                        needActive = pathname === item["link"];
-                    }
-                    return item["type"] == "link" ? (
-                        <li key={index} className={classnames({
-                                        "cur-tab": needActive
-                })}><Link to={item["link"]}>{item["name"]}</Link></li>
-                    ) : (
-                        <li key={index}><Link to={"javascript:;"}
-                                              onColck={this[item["event"]].bind(this)}>{item["name"]}</Link></li>
-                    );
-                });
-        }
-        return menuList.map((item, index) => {
-            const match = pathname.match(new RegExp("\^" + item["link"] + "\\b"));
-            let needActive = false;
-            if (match) {
-                needActive = match[0].length > 1;
-            } else if (match === null) {
-                needActive = pathname === item["link"];
-            }
-            return item["type"] == "link" ? (
-                <li key={index} className={classnames({
-                                        "cur-tab":needActive
-                })}><Link to={item["link"]}>{item["name"]}</Link></li>
-            ) : (
-                <li key={index}><Link to={"javascript:;"}
-                                      onColck={this[item["event"]].bind(this)}>{item["name"]}</Link></li>
-            );
-        });
-    }
-
     /**
      * 渲染组件布局
      * @returns {XML}
      */
     render() {
         return (
-            <div className="app_nav">
-                <div className="nav_mask"></div>
-                <div className="nav_body">
-                    <div className="grid-row">
-                        <ul className="nav">
-                            <li><Link className="nav_logo" to="/"><i className="l-icon l-icon-layLogo"></i></Link></li>
-                            {this.renderMenuItem()}
-                        </ul>
+            <div>
+                <header id="header" data-behavior="1">
+                    <i id="btn-open-sidebar" className="fa fa-lg fa-bars"></i>
+                    <h1 className="header-title">
+                        <Link className="header-title-link" to="/">小宋</Link>
+                    </h1>
+                    <Link className="header-right-picture" to="javascript:;">
+                        <img className="header-picture" src="images/logo.png" />
+                    </Link>
+                </header>
+                <nav id="sidebar" data-behavior="1">
+                    <div className="sidebar-profile">
+                        <Link to="/">
+                            <img className="sidebar-profile-picture" src="/images/logo.png" />
+                        </Link>
+                        <span className="sidebar-profile-name">小宋</span>
                     </div>
-                </div>
+                    <ul className="sidebar-buttons">
+                        <li className="sidebar-button">
+                            <Link className="sidebar-button-link " to="/">
+                                <i className="sidebar-button-icon fa fa-lg fa-home"></i>
+                                <span className="sidebar-button-desc">首页</span>
+                            </Link>
+                        </li>
+                        <li className="sidebar-button">
+                            <Link className="sidebar-button-link " to="/category">
+                                <i className="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                                <span className="sidebar-button-desc">专题</span>
+                            </Link>
+                        </li>
+                        <li className="sidebar-button">
+                            <Link className="sidebar-button-link " to="/tags">
+                                <i className="sidebar-button-icon fa fa-lg fa-tags"></i>
+                                <span className="sidebar-button-desc">标签</span>
+                            </Link>
+                        </li>
+                        <li className="sidebar-button">
+                            <Link className="sidebar-button-link " to="/all-archives">
+                                <i className="sidebar-button-icon fa fa-lg fa-archive"></i>
+                                <span className="sidebar-button-desc">归档</span>
+                            </Link>
+                        </li>
+
+                        <li className="sidebar-button">
+                            <Link className="sidebar-button-link st-search-show-outputs" to="http://www.maxzhang.com/#search">
+                                <i className="sidebar-button-icon fa fa-lg fa-search"></i>
+                                <span className="sidebar-button-desc">搜索</span>
+                            </Link>
+                        </li>
+
+                        <li className="sidebar-button">
+                            <Link className="sidebar-button-link " to="http://www.maxzhang.com/#about">
+                                <i className="sidebar-button-icon fa fa-lg fa-question"></i>
+                                <span className="sidebar-button-desc">关于我</span>
+                            </Link>
+                        </li>
+                    </ul>
+                    <ul className="sidebar-buttons">
+                        <li className="sidebar-button">
+                            <Link className="sidebar-button-link " to="https://github.com/rwson" target="_blank">
+                                <i className="sidebar-button-icon fa fa-lg fa-github"></i>
+                                <span className="sidebar-button-desc">GitHub</span>
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         );
     }
 }
-
-function mapStateToProps(state) {
-    return {
-        isLogined: state.reducers.isLogined
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(Actions, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
-

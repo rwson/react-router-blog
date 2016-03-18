@@ -6,6 +6,8 @@
 
 import React,{Component} from "react";
 import {Route,Link} from "react-router";
+
+import Bottom from "./Bottom";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export default class Detail extends Component {
@@ -48,41 +50,21 @@ export default class Detail extends Component {
     }
 
     /**
-     * 选择文章的详细信息
-     * @param detail    详细信息对象
+     * 渲染标签
+     * @param tags  标签数组
      * @returns {XML}
      */
-    renderBottomInfo(detail) {
-        if (Object.keys(detail).length > 1) {
-            return (
-                <div className="bottom-info">
-                    <div className="author-info">
-                        <p>发布人:{detail["name"]}</p>
-
-                        <p>发布时间:{detail["time"]["day"]}</p>
-                    </div>
-                </div>
-            );
-        }
-    }
-
-    /**
-     * 渲染评论列表
-     * @param comments  评论对象数组
-     * @returns {XML}
-     */
-    renderComments(comments) {
-        let elements;
-        if (comments && !comments.length) {
-            elements = (
-                <p className="no-comment-tips">本文暂无评论,快来做第一个评论的人吧!</p>
-            );
-        } else {
-            elements = (
-                <p className="no-comment-tips">本文暂无评论,快来做第一个评论的人吧!</p>
-            );
-        }
-        return elements;
+    rendTags(tags){
+        return (
+            <div className="post-footer-tags">
+                <span className="text-color-light text-small">标签</span><br/>
+                {tags.map((tag) => {
+                    return (
+                        <Link className="tag tag--primary tag--small t-link" key={tag} to={`/tag/${tag}`}>{tag}</Link>
+                    );
+                })}
+            </div>
+        );
     }
 
     /**
@@ -91,22 +73,28 @@ export default class Detail extends Component {
      * @returns {*}
      */
     renderDetail(detail) {
-        let element;
-        if (Object.keys(detail).length == 1) {
-            element = (
-                <div className="not-exits">
-                    <h1>文章不存在!</h1>
-                </div>
-            );
-        } else {
-            element = (
-                <div className="article-detail">
-                    <h1 className="atricle-title">{detail["title"]}</h1>
-                    <p className="article-content">{detail["post"] || "暂无内容"}</p>
+        if (Object.keys(detail).length) {
+            return (
+                <div id="main" data-behavior="1">
+                    <article className="post" itemScope="" itemType="http://schema.org/BlogPosting">
+                        <div className="post-header main-content-wrap">
+                            <h1 className="post-title" itemProp="headline">{detail["title"]}</h1>
+                            <div className="post-meta">
+                                <time itemProp="datePublished" content={detail["day"]["day"]}>
+                                    {detail["day"]["day"]}
+                                </time>
+                            </div>
+                        </div>
+                        <div className="post-content markdown main-content-wrap" itemProp="articleBody" dangerouslySetInnerHTML={{"__html": detail["post"]}}>
+                        </div>
+                        <div className="post-footer main-content-wrap">
+                            {this.rendTags(detail.tags)}
+                        </div>
+                    </article>
+                    <Bottom />
                 </div>
             );
         }
-        return element;
     }
 
     /**
@@ -116,10 +104,8 @@ export default class Detail extends Component {
     render() {
         const {detail} = this.state;
         return (
-            <div>
+            <div className="container">
                 {this.renderDetail(detail)}
-                {this.renderBottomInfo(detail)}
-                {this.renderComments(detail.comments)}
             </div>
         );
     }

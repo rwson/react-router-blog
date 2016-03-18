@@ -6,6 +6,8 @@
 
 import React,{Component} from "react";
 import {Route,Link} from "react-router";
+
+import Bottom from "./Bottom";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export default class Archive extends Component {
@@ -44,23 +46,37 @@ export default class Archive extends Component {
      * @param data
      * @returns {XML}
      */
-    renderArchivesByDate(data){
-        for(let item in data){
+    renderArchivesByDate(data) {
+        const keys = Object.keys(data);
+        return keys.map((item) => {
             let curData = data[item];
+            let curKeys = Object.keys(curData);
             return (
-                <li key={item}>
-                    <h1 className="public-date">{item}</h1>
-                    {curData.map((item) => {
+                <div className="archive archive-year box" key={item}>
+                    <h4 className="archive-title">
+                        <Link className="link-unstyled" to={`/archives/${item}`}>{item}</Link>
+                    </h4>
+                    {curKeys.map((key) => {
+                        let curRend = curData[key];
                         return (
-                            <p key={item["_id"]}>
-                                <Link
-                                    to={"/u/" + item["name"] + "/" + item["time"]["day"] + "/" + item["title"]}>{item["title"] + " - " + item["name"]}</Link>
-                            </p>
+                            <ul className="archive-posts archive-month" key={key}>
+                                <h5 className="archive-title">
+                                    <Link className="link-unstyled" to={`/archives/${key}`}>{key}</Link>
+                                </h5>
+                                {curRend.map((rend) => {
+                                    return (
+                                        <li className="archive-post archive-day" key={rend["_id"]}>
+                                            <Link className="archive-post-title" to={`/article/detail/${rend["_id"]}`}>{rend["title"]}</Link>
+                                            <span className="archive-post-date"> - {rend["day"]["day"]}</span>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
                         );
                     })}
-                </li>
+                </div>
             );
-        }
+        });
     }
 
     /**
@@ -70,22 +86,31 @@ export default class Archive extends Component {
     renderArchives() {
         const {archives} = this.state;
         let renderData = {};
-        archives.forEach((item) => {
-            let date = item["time"]["date"].substr(0,10);
-            if (!renderData[date]) {
-                renderData[date] = [];
-            }
-            renderData[date].push(item);
-        });
         if (archives.length) {
+            archives.forEach((item) => {
+                let year = item["day"]["year"];
+                let yearMonth = item["day"]["year-month"];
+                if (!renderData[year]) {
+                    renderData[year] = {};
+                    if(!renderData[year][yearMonth]){
+                        renderData[year][yearMonth] = [];
+                        renderData[year][yearMonth].push(item);
+                    } else {
+                        renderData[year][yearMonth].push(item);
+                    }
+                } else {
+                    if(!renderData[year][yearMonth]){
+                        renderData[year][yearMonth] = [];
+                        renderData[year][yearMonth].push(item);
+                    } else {
+                        renderData[year][yearMonth].push(item);
+                    }
+                }
+            });
             return (
-            <div className="panel panel-default">
-                <div className="panel-heading">Panel heading without title</div>
-                <div className="panel-body">
-                    Panel content
-                </div>
-                {this.renderArchivesByDate(renderData)}
-            </div>
+                <section className="boxes">
+                    {this.renderArchivesByDate(renderData)}
+                </section>
             );
         }
     }
@@ -95,11 +120,14 @@ export default class Archive extends Component {
      * @returns {XML}
      */
     render() {
-        const {archives} = this.state;
         return (
-            <div>
-                {this.renderArchives()}
+            <div id="main" data-behavior="1">
+
+                <div id="archives" className="main-content-wrap">
+                    {this.renderArchives()}
+                </div>
             </div>
         );
     }
 }
+

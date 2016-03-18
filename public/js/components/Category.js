@@ -1,42 +1,59 @@
 /**
- * 标签
+ * 归档
  */
 
 "use strict";
 
 import React,{Component} from "react";
 import {Route,Link} from "react-router";
+import Bottom from "./Bottom";
 import {requestMethods,requestUrls} from "../networkAPI";
 
-export default class Tags extends Component {
+export default class Category extends Component {
+
+    /**
+     * 构造器
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.state = {
-            tags: []
+            fetching: false,
+            category: []
         };
     }
 
+    /**
+     * 组件即将被实例化完成,请求具体的目录
+     */
     componentWillMount() {
+        this.setState({
+            fetching: true
+        });
         requestMethods.GetRequest({
-            url: requestUrls.tags,
+            url: requestUrls.getCategory,
             success: (res) => {
                 this.setState({
-                    tags: res.tags
+                    category: res.category,
+                    fetching: false
                 });
             },
             error: (ex) => {
                 alert("请求失败");
+                this.setState({
+                    fetching: false
+                });
                 console.log(ex);
             }
         });
     }
 
     /**
-     * 渲染标签链接
+     * 渲染目录
      * @param data  用来渲染的数据
      * @returns {XML}
      */
-    renderTagsByData(data) {
+    renderCatagorysByData(data) {
         const keys = Object.keys(data["articles"]);
         return keys.map((item) => {
             let curData = data["articles"][item];
@@ -49,7 +66,8 @@ export default class Tags extends Component {
                         {curData.map((itemIn) => {
                             return (
                                 <li className="archive-post" key={itemIn["_id"]}>
-                                    <Link className="archive-post-title" to={"/article/detail/" + itemIn["_id"]}>{itemIn["title"]}</Link>
+                                    <Link className="archive-post-title"
+                                          to={"/article/detail/" + itemIn["_id"]}>{itemIn["title"]}</Link>
                                     <span className="archive-post-date">{itemIn["day"]["day"]}</span>
                                 </li>
                             );
@@ -60,30 +78,34 @@ export default class Tags extends Component {
         });
     }
 
-    renderTags() {
-        const {tags} = this.state;
+    /**
+     * 组织数据,并且调用渲染分类的相关方法
+     * @returns {XML}
+     */
+    renderCategory() {
+        const {category} = this.state;
         let renderData = {
-            "topTag": [],
+            "topCategory": [],
             "articles": {}
         };
-        if (tags.length) {
-            tags.forEach((tag) => {
-                tag.tags.forEach((item) => {
-                    if(renderData["topTag"].indexOf(item) == -1){
-                        renderData["topTag"].push(item);
+        if (category.length) {
+            category.forEach((item) => {
+                item.categorys.forEach((cate) => {
+                    if (renderData["topCategory"].indexOf(cate) == -1) {
+                        renderData["topCategory"].push(cate);
                     }
-                    if(!renderData["articles"][item]){
-                        renderData["articles"][item] = [];
-                        renderData["articles"][item].push(tag);
+                    if (!renderData["articles"][cate]) {
+                        renderData["articles"][cate] = [];
+                        renderData["articles"][cate].push(item);
                     } else {
-                        renderData["articles"][item].push(tag);
+                        renderData["articles"][cate].push(item);
                     }
                 });
             });
             return (
                 <ul className="archive-list">
                     <section>
-                        {renderData["topTag"].map((item) => {
+                        {renderData["topCategory"].map((item) => {
                             return (
                                 <Link className="category category--small category--primary"
                                       to={`/categories/${item}`}
@@ -94,20 +116,27 @@ export default class Tags extends Component {
                         })}
                     </section>
                     <section className="boxes">
-                        {this.renderTagsByData(renderData)}
+                        {this.renderCatagorysByData(renderData)}
                     </section>
                 </ul>
             );
         }
     }
 
+    /**
+     * 渲染组件布局
+     * @returns {XML}
+     */
     render() {
+        const {archives} = this.state;
         return (
             <div id="main" data-behavior="1">
-                <div id="tags-archives" className="main-content-wrap">
-                    {this.renderTags()}
+                <div id="categories-archives" className="main-content-wrap">
+                    {this.renderCategory()}
                 </div>
+                <Bottom />
             </div>
         );
     }
 }
+

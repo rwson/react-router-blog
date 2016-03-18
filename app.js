@@ -8,7 +8,7 @@ var express = require('express'),
 	path = require('path'),
 	app = express(),
 	cookieSession = require('cookie-session'),
-	MongoStore = require('connect-mongo')(express),
+	//MongoStore = require('connect-mongo')(express),
 	settings = require('./settings'),
 	flash = require('connect-flash'),
 	fs = require('fs'),
@@ -27,7 +27,6 @@ app.use(express.logger('dev'));
 
 app.use(express.logger({'stream':accessLog}));
 
-
 app.use(express.bodyParser({
 	'keepExtensions':true,
 	'uploadDir':'./public/upload'
@@ -37,10 +36,10 @@ app.use(express.bodyParser({
 app.use(cookieSession({
 	secret:settings.cookieSecret,
 	key:settings.db,
-	cookie:{maxAge:1000 * 60 * 60 * 24 * 30},
-	store:new MongoStore({
-		db:settings.db
-	})
+	cookie:{maxAge:1000 * 60 * 60 * 24 * 30}
+	//store:new MongoStore({
+	//	db:settings.db
+	//})
 }));
 //	写入cookie和session
 

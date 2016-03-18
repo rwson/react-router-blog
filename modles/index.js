@@ -14,6 +14,6 @@ if(!settings.env || settings.env === "dev"){
     mongoose.connect(settings.pubDatabase.host + settings.pubDatabase.db);
 }
 
-exports.User = mongoose.model("User",require("./User"));
-exports.Post = mongoose.model("Post",require("./Post"));
-exports.Commet = mongoose.model("Comment",require("./Comment"));
+exports.User = mongoose.model("User",require("./user"));
+exports.Post = mongoose.model("Post",require("./post"));
+exports.Commet = mongoose.model("Comment",require("./comment"));

@@ -18,13 +18,15 @@ import {
     Archive,
     Tags,
     Tag,
-    Upload,
+    Category,
     Login,
     Register,
     UserCenter,
     Links,
     NotFound
 } from "./components";
+
+import Loading from "./components/Loading";
 
 //  引入组件
 
@@ -53,11 +55,9 @@ class App extends Component {
             curRouter:curRouter
         };
         return (
-            <div>
-                <NavBar {...props}/>
-                <div className="main-container">
-                    {this.props.content}
-                </div>
+            <div className="body_container">
+                <NavBar/>
+                {this.props.content}
             </div>
         );
     }
@@ -70,19 +70,18 @@ class App extends Component {
 export default function getRoutes() {
     return (
         <Route path="/" component={App}>
-            <IndexRoute components={{content: Main}}/>
-            <Route path="/article/detail/:id" components={{content: Detail}}/>
-            <Route path="archive" components={{content: Archive}}/>
-            <Route path="tags" components={{content: Tags}}/>
-            <Route path="tag/:tag" components={{content: Tag}}/>
-            <Route path="archive" components={{content: Archive}}/>
-            <Route path="upload" components={{content: Upload}}/>
-            <Route path="post" components={{content: Post}}/>
-            <Route path="userCenter" components={{content: UserCenter}}/>
-            <Route path="register" components={{content: Register}}/>
-            <Route path="login" components={{content: Login}}/>
-            <Route path="links" components={{content: Links}}/>
-            <Route path="*" components={{content: NotFound}}/>
+            <IndexRoute components={{content: Main}} />
+            <Route path="/article/detail/:id" components={{content: Detail}} />
+            <Route path="all-archives" components={{content: Archive}} />
+            <Route path="tags" components={{content: Tags}} />
+            <Route path="tag/:tag" components={{content: Tag}} />
+            <Route path="category" components={{content: Category}} />
+            <Route path="post" components={{content: Post}} />
+            <Route path="userCenter" components={{content: UserCenter}} />
+            <Route path="register" components={{content: Register}} />
+            <Route path="login" components={{content: Login}} />
+            <Route path="links" components={{content: Links}} />
+            <Route path="*" components={{content: NotFound}} />
         </Route>
     );
 }

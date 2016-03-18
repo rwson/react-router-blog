@@ -6,11 +6,11 @@ var mongoose = require("mongoose"),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId,
     Post = new Schema({
-        name:String,
-        day:String,
-        title:String,
-        tags:Array,
-        post:String
+        day: Object,
+        title: String,
+        tags: Array,
+        categorys: Array,
+        post: String
     });
 
 module.exports = Post;

@@ -10,6 +10,7 @@ import {bindActionCreators} from "redux";
 import {Route,Link} from "react-router";
 import {connect} from "react-redux";
 import * as Actions from "../actions";
+import Bottom from "./Bottom";
 
 class Main extends Component {
 
@@ -60,18 +61,9 @@ class Main extends Component {
      * 下一页
      */
     handleNextPage() {
-        const {NextPage,GetArticleList,page} = this.props;
+        const {GetArticleList,page} = this.props;
         let targetPage = page + 1 == 0 ? 1 : page + 1;
         GetArticleList(targetPage);
-    }
-
-    /**
-     * 具体跳转到哪一页
-     * @param num   要跳转的目标页
-     */
-    handlePage(num) {
-        const {NextPage,GetArticleList,page} = this.props;
-        GetArticleList(num);
     }
 
     /**
@@ -82,53 +74,53 @@ class Main extends Component {
         const {page,totalPage} = this.props;
         const self = this;
 
-        function renderPageLinks() {
-            let links = [];
-            links.push(<li className={classnames({
-                    "disabled":page == 1
-                })} key={+new Date()} aria-label="Previous" onClick={self.handlePrevPage.bind(self)}><Link
-                to={""}>&laquo;</Link></li>);
-            for (let i = 1; i <= totalPage; i++) {
-                links.push(<li className={classnames({
-                    "disabled":i == page
-                })} key={i} onClick={self.handlePage.bind(self,i)}><Link to={""}>{i}</Link></li>);
+        /**
+         * 渲染分页按钮的class,以对象的形式返回
+         * @returns {{last: string, next: string}}
+         */
+        function renderPageClasses() {
+            let last = "post-action-btn btn btn--default";
+            let next = "post-action-btn btn btn--default";
+            if (page == totalPage && totalPage > 1) {
+                last = "post-action-btn btn btn--default";
+                next = "post-action-btn btn btn--disabled";
             }
-            links.push(<li className={classnames({
-                    "disabled":page == totalPage
-                })} key={+new Date() + 1} aria-label="Next" onClick={self.handleNextPage.bind(self)}><Link to={""}>&raquo;</Link>
-            </li>);
-            return links;
+            if (page == 1 && totalPage > 1) {
+                last = "post-action-btn btn btn--disabled";
+                next = "post-action-btn btn btn--default";
+            }
+            if (totalPage == 1) {
+                last = "post-action-btn btn btn--disabled";
+                next = "post-action-btn btn btn--disabled";
+            }
+            return {
+                "last": last,
+                "next": next
+            };
         }
 
         return (
-            <nav>
-                <ul className="pagination">
-                    {renderPageLinks()}
-                </ul>
-            </nav>
+            <div className="post-actions-wrap">
+                <nav>
+                    <ul className="post-actions post-action-nav">
+                        <li className="post-action">
+                            <Link className={renderPageClasses()["last"]} to=""
+                                  onClick={this.handlePrevPage.bind(this)}>
+                                <i className="fa fa-angle-left"></i>
+                                <span className="hide-xs hide-sm text-small icon-ml">上一页</span>
+                            </Link>
+                        </li>
+                        <li className="post-action post-action-nav">
+                            <Link className={renderPageClasses()["next"]} to=""
+                                  onClick={this.handleNextPage.bind(this)}>
+                                <span className="hide-xs hide-sm text-small icon-mr">下一页</span>
+                                <i className="fa fa-angle-right"></i>
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         );
-    }
-
-    /**
-     * 渲染该文章的标签
-     * @param tags  标签数组,字符串数组
-     * @returns {*}
-     */
-    rendTags(tags) {
-        return tags.join("").length ? (
-            <span className="public-info">
-                <i className="fa fa-user"></i>
-                {
-                    tags.map((tag, index) => {
-                        return tag ? (
-                            <Link className="tag-name" to={"/tags/" + tag}
-                                  key={tag}>{tag}</Link>
-                        ) : "";
-                    })
-                }
-            </span>
-        ) : "";
-
     }
 
     /**
@@ -137,38 +129,33 @@ class Main extends Component {
      * @returns {*}
      */
     rendList(list) {
-        return (list && list.length) ? list.map((item) => {
-            return (
-                <div className="post-contents" key={item["_id"]}>
-                    <div className="panel panel-default">
-                        <div className="panel-heading"><Link
-                            className="article-link"
-                            to={"/article/detail/" + item["_id"]}>{item["title"]}</Link>
+        return (list && list.length) && list.map((item) => {
+                let link = `/article/detail/${item["_id"]}`;
+                return (
+                    <article className="post" itemScope="" key={item["_id"]}>
+                        <div className="post-wrap">
+                            <div className="post-header">
+                                <h1 className="post-title" itemProp="headline">
+                                    <Link className="link-unstyled" to={link}>{item["title"]}</Link>
+                                </h1>
+                                <div className="post-meta">
+                                    <time itemProp="datePublished" content={item["day"]["date"]}>
+                                        {item["day"]["date"].substr(0, 10)}
+                                    </time>
+                                </div>
+                            </div>
+                            <div className="post-excerpt" itemProp="articleBody">
+                                <p>
+                                    <div className="show-preview" dangerouslySetInnerHTML={{"__html": item["post"].length ? item["post"] : "<p>暂无内容</p>"}}>
+                                    </div>
+                                    <br/>
+                                    <Link to={link} className="post-excerpt_link link ">继续阅读 »</Link>
+                                </p>
+                            </div>
                         </div>
-                        <div className="panel-body">
-                            <div className="post-texts">{item["post"] || "暂无内容"}</div>
-                        </div>
-                        <div className="panel-footer">
-                            <span className="public-info">
-                                <i className="fa fa-calendar"></i>
-                                {item["time"]["date"].substr(0,10)}
-                            </span>
-                            {this.rendTags(item["tags"])}
-                        </div>
-                    </div>
-                </div>
-            )
-        }) :
-            (
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        啊哦,暂时没有记录啊!
-                    </div>
-                    <div className="panel-body">
-                        {this.rendLoginAndPost()}
-                    </div>
-                </div>
-            );
+                    </article>
+                )
+            });
     }
 
     /**
@@ -178,9 +165,11 @@ class Main extends Component {
     render() {
         const {list} = this.props;
         return (
-            <div>
-                {this.rendList(list)}
-                {this.renderPagenation()}
+            <div id="main" data-behavior="1">
+                <section className="post-group main-content-wrap">
+                    {this.rendList(list)}
+                    {this.renderPagenation()}
+                </section>
             </div>
         );
     }
