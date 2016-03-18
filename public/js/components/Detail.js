@@ -66,7 +66,7 @@ export default class Detail extends Component {
                 <span className="text-color-light text-small">标签</span><br/>
                 {tags.map((tag) => {
                     return (
-                        <Link className="tag tag--primary tag--small t-link" key={tag} to={`/tag/${tag}`}>{tag}</Link>
+                        <Link className="tag tag--primary tag--small t-link" key={tag} to={`/tags/${tag}`}>{tag}</Link>
                     );
                 })}
             </div>

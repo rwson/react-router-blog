@@ -2732,7 +2732,7 @@ p {
     }
 
     h1 {
-        font-size: 2.6rem
+        font-size: 2.3rem
     }
 
     h2 {
@@ -2758,7 +2758,7 @@ p {
     }
 
     h1 {
-        font-size: 2.65rem
+        font-size: 2.45rem
     }
 
     h2 {
@@ -3069,7 +3069,8 @@ p {
     position: absolute;
     top: 20px;
     left: 20px;
-    cursor: pointer
+    cursor: pointer;
+    display: none;
 }
 
 #header .header-right-icon, #header .header-right-picture {
@@ -3808,6 +3809,10 @@ p {
     border: 1px solid #bbc4c9;
     cursor: not-allowed;
     text-decoration: none
+}
+
+.btn--disabled{
+    display: none;
 }
 
 .btn--default {
@@ -5050,7 +5055,7 @@ a.link-unstyled a.link, a.link-unstyled a.link:active, a.link-unstyled a.link:ho
     position: absolute;
     left: 50%;
     top: 50%;
-    margin: -80px 0 0 -80px;
+    margin: -40px 0 0 -40px;
 }
 
 .double-bounce1, .double-bounce2 {

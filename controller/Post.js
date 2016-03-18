@@ -66,17 +66,15 @@ module.exports = {
         var findObj = {};
         if (archive.indexOf("年") > -1 && archive.indexOf("月") > -1) {
             findObj = {
-                "yearMonth": archive
+                "day.year-month": archive
             };
         } else if (archive.indexOf("年") > -1 && archive.indexOf("月") == -1) {
             findObj = {
-                "year": archive
+                "day.year": archive
             };
         }
 
-        Post.find({
-            day: findObj
-        }, {
+        Post.find(findObj, {
             "day": 1,
             "title": 1
         }).sort({

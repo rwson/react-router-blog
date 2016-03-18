@@ -6,7 +6,7 @@ module.exports = {
     "env": "dev",
     "devDatabase": {
         "db": "blog",
-        "host": "mongodb://127.0.0.1:27017/"
+        "host": "mongodb://115.28.88.79:27017/"
     },
     "pubDatabase": {
         "db": "blog",

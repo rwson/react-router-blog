@@ -20,8 +20,8 @@ export default class ArchiveDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isFetching:false,
-            articles:[]
+            isFetching: false,
+            articles: []
         };
     }
 
@@ -30,24 +30,51 @@ export default class ArchiveDetail extends Component {
      */
     componentWillMount() {
         this.setState({
-            isFetching:true
+            isFetching: true
         });
         const {archive} = this.props.params;
         requestMethods.GetRequest({
-            "url":`${requestUrls.ArchiveDetail}/${archive}`,
-            "success":(res) => {
+            "url": `${requestUrls.ArchiveDetail}/${archive}`,
+            "success": (res) => {
                 this.setState({
-                    isFetching:false,
-                    articles:res.articles
+                    isFetching: false,
+                    articles: res.articles
                 });
             },
-            "error":((ex) => {
+            "error": ((ex) => {
                 alert("请求失败");
                 this.setState({
-                    isFetching:false
+                    isFetching: false
                 });
             })
         });
+    }
+
+    /**
+     * 渲染文章列表
+     * @returns {XML}
+     */
+    rendList() {
+        const {articles} = this.state;
+        const {archive} = this.props.params;
+        return (
+            <div className="archive box">
+                <h4 className="archive-title">
+                    <Link className="link-unstyled" to={`/archives/${archive}`}>{archive}</Link>
+                </h4>
+                <ul className="archive-posts">
+                    {articles.map((itemIn) => {
+                        return (
+                            <li className="archive-post" key={itemIn["_id"]}>
+                                <Link className="archive-post-title"
+                                      to={"/article/detail/" + itemIn["_id"]}>{itemIn["title"]}</Link>
+                                <span className="archive-post-date">{itemIn["day"]["day"]}</span>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        );
     }
 
     /**
@@ -55,13 +82,18 @@ export default class ArchiveDetail extends Component {
      * @returns {XML}
      */
     render() {
-        return (
+        const {isFetching} = this.state;
+        let ele = (
             <div id="main" data-behavior="1">
                 <div id="categories-archives" className="main-content-wrap">
-
+                    {this.rendList()}
                 </div>
                 <Bottom />
             </div>
         );
+        if (isFetching) {
+            ele = <Loading />;
+        }
+        return ele;
     }
 }
