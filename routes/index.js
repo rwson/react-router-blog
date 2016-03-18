@@ -102,6 +102,9 @@ module.exports = function (app) {
      * 获取指定标签下的文章
      */
     app.get("/tag/articles/:tag", function (req, res) {
+
+        console.log(req.params.tag);
+
         Post.getTag(req.params.tag, function (err, posts) {
             //  从数据库获取该标签对应的标签
 
@@ -123,7 +126,7 @@ module.exports = function (app) {
     });
 
     /**
-     * 获取所有的分类
+     * 获取所有的归档
      */
     app.get("/archives", function (req, res) {
 
@@ -142,24 +145,26 @@ module.exports = function (app) {
                 "archives": docs
             });
         });
+    });
 
-        //Post.getArchive(function (err, posts) {
-        //    //  从数据库中获取记录
-        //
-        //    if (err) {
-        //        res.send(500,{
-        //            "status": "error",
-        //            "message": "server error",
-        //            "error":err
-        //        });
-        //        return;
-        //    }
-        //    //  查询失败
-        //    res.send(200,{
-        //        "status":"success",
-        //        "archives":posts
-        //    });
-        //});
+    /**
+     * 查询指定归档下的文章
+     */
+    app.get("/archives/article/:archive", function (req, res) {
+        Post.getArchive(req.params.archive, function (err, articles) {
+            if (err) {
+                res.send(500, {
+                    "status": "error",
+                    "message": "server error",
+                    "error": err
+                });
+                return;
+            }
+            res.send(200,{
+                "status":"success",
+                "articles":articles
+            });
+        });
     });
 
     /**

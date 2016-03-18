@@ -50,7 +50,33 @@ module.exports = {
      */
     "getArchives": function (callback) {
         Post.find({}, {
-            "name": 1,
+            "day": 1,
+            "title": 1
+        }).sort({
+            "day": -1
+        }).exec(callback);
+    },
+
+    /**
+     * 获取指定的分类
+     * @param archive   分类名称
+     * @param callback
+     */
+    "getArchive": function (archive, callback) {
+        var findObj = {};
+        if (archive.indexOf("年") > -1 && archive.indexOf("月") > -1) {
+            findObj = {
+                "yearMonth": archive
+            };
+        } else if (archive.indexOf("年") > -1 && archive.indexOf("月") == -1) {
+            findObj = {
+                "year": archive
+            };
+        }
+
+        Post.find({
+            day: findObj
+        }, {
             "day": 1,
             "title": 1
         }).sort({
@@ -64,7 +90,23 @@ module.exports = {
      */
     getTags: function (callback) {
         Post.find({}, {
-            tags: 1,
+            "tags": 1,
+            "day": 1,
+            "title": 1
+        }).sort({
+            "day": -1
+        }).exec(callback);
+    },
+
+    /**
+     * 获取文章标签
+     * @param tag       标签名
+     * @param callback  回调函数
+     */
+    getTag: function (tag, callback) {
+        Post.find({
+            "tags": tag
+        }, {
             "day": 1,
             "title": 1
         }).sort({

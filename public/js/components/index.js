@@ -6,30 +6,22 @@
 
 import Main from "./Main";
 import Detail from "./Detail";
-import Post from "./Post";
 import NavBar from "./NavBar";
 import Archive from "./Archive";
+import ArchiveDetail from "./ArchiveDetail";
 import Tags from "./Tags";
 import Tag from "./Tag";
 import Category from "./Category";
-import Login from "./Login";
-import Register from "./Register";
-import UserCenter from "./UserCenter";
-import Links from "./Links";
 import NotFound from "./NotFound";
 
 export {
     Main,
     Detail,
-    Post,
     NavBar,
     Archive,
+    ArchiveDetail,
     Tags,
     Tag,
     Category,
-    Login,
-    Register,
-    UserCenter,
-    Links,
     NotFound
 };

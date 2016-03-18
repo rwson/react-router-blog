@@ -1,6 +1,6 @@
 "use strict";
 
-import {ARTICLE_LIST,LOGIN_SUCCESS,REQUEST_FAIL,REGISTER_SUCCESS,NEXT_PAGE,PREV_PAGE,JUMP_PAGE} from "../constants";
+import {ARTICLE_LIST,REQUEST_FAIL,START_FETCH} from "../constants";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export function GetArticleList(page) {
@@ -27,5 +27,8 @@ export function GetArticleList(page) {
     });
 }
 
-export function publishArticle() {
+export function startGetList() {
+    return {
+        type:START_FETCH
+    };
 }

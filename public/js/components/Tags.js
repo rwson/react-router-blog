@@ -6,26 +6,35 @@
 
 import React,{Component} from "react";
 import {Route,Link} from "react-router";
+import Loading from "./Loading";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export default class Tags extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isFetching: false,
             tags: []
         };
     }
 
     componentWillMount() {
+        this.setState({
+            isFetching: true
+        });
         requestMethods.GetRequest({
             url: requestUrls.tags,
             success: (res) => {
                 this.setState({
+                    isFetching: false,
                     tags: res.tags
                 });
             },
             error: (ex) => {
                 alert("请求失败");
+                this.setState({
+                    isFetching: false
+                });
                 console.log(ex);
             }
         });
@@ -41,15 +50,16 @@ export default class Tags extends Component {
         return keys.map((item) => {
             let curData = data["articles"][item];
             return (
-                <div id="posts-list-Web产品思考" key={item} className="archive box">
+                <div key={item} className="archive box">
                     <h4 className="archive-title">
-                        <Link className="link-unstyled" to={`/categories/${item}`}>{item}</Link>
+                        <Link className="link-unstyled" to={`/tags/${item}`}>{item}</Link>
                     </h4>
                     <ul className="archive-posts">
                         {curData.map((itemIn) => {
                             return (
                                 <li className="archive-post" key={itemIn["_id"]}>
-                                    <Link className="archive-post-title" to={"/article/detail/" + itemIn["_id"]}>{itemIn["title"]}</Link>
+                                    <Link className="archive-post-title"
+                                          to={"/article/detail/" + itemIn["_id"]}>{itemIn["title"]}</Link>
                                     <span className="archive-post-date">{itemIn["day"]["day"]}</span>
                                 </li>
                             );
@@ -60,6 +70,10 @@ export default class Tags extends Component {
         });
     }
 
+    /**
+     * 组织数据渲染标签
+     * @returns {XML}
+     */
     renderTags() {
         const {tags} = this.state;
         let renderData = {
@@ -69,10 +83,10 @@ export default class Tags extends Component {
         if (tags.length) {
             tags.forEach((tag) => {
                 tag.tags.forEach((item) => {
-                    if(renderData["topTag"].indexOf(item) == -1){
+                    if (renderData["topTag"].indexOf(item) == -1) {
                         renderData["topTag"].push(item);
                     }
-                    if(!renderData["articles"][item]){
+                    if (!renderData["articles"][item]) {
                         renderData["articles"][item] = [];
                         renderData["articles"][item].push(tag);
                     } else {
@@ -86,7 +100,7 @@ export default class Tags extends Component {
                         {renderData["topTag"].map((item) => {
                             return (
                                 <Link className="category category--small category--primary"
-                                      to={`/categories/${item}`}
+                                      to={`/tags/${item}`}
                                       key={item}>
                                     {item}
                                 </Link>
@@ -101,13 +115,20 @@ export default class Tags extends Component {
         }
     }
 
+    /**
+     * 组件的render
+     * @returns {XML}
+     */
     render() {
-        return (
-            <div id="main" data-behavior="1">
-                <div id="tags-archives" className="main-content-wrap">
-                    {this.renderTags()}
-                </div>
+        const {isFetching} = this.state;
+        let ele = <div id="main" data-behavior="1">
+            <div id="tags-archives" className="main-content-wrap">
+                {this.renderTags()}
             </div>
-        );
+        </div>;
+        if (isFetching) {
+            ele = <Loading />;
+        }
+        return ele;
     }
 }

@@ -4694,7 +4694,7 @@ a.link-unstyled a.link, a.link-unstyled a.link:active, a.link-unstyled a.link:ho
 }
 
 .post .post-excerpt_link {
-    margin-top: -15px
+    float: right;
 }
 
 .post .post-excerpt_link, .post .post-meta, .post .post-readingtime {
@@ -5039,6 +5039,8 @@ a.link-unstyled a.link, a.link-unstyled a.link:active, a.link-unstyled a.link:ho
 }
 
 .loading-area {
+    width: 100%;
+    height: 100%;
     position: relative;
 }
 

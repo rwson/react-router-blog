@@ -13,16 +13,12 @@ import {routeActions} from "react-router-redux";
 import {
     Main,
     Detail,
-    Post,
     NavBar,
     Archive,
+    ArchiveDetail,
     Tags,
     Tag,
     Category,
-    Login,
-    Register,
-    UserCenter,
-    Links,
     NotFound
 } from "./components";
 
@@ -52,7 +48,7 @@ class App extends Component {
         const {routes} = this.props;
         const curRouter = routes[routes.length - 1];
         const props = {
-            curRouter:curRouter
+            curRouter: curRouter
         };
         return (
             <div className="body_container">
@@ -70,18 +66,14 @@ class App extends Component {
 export default function getRoutes() {
     return (
         <Route path="/" component={App}>
-            <IndexRoute components={{content: Main}} />
-            <Route path="/article/detail/:id" components={{content: Detail}} />
-            <Route path="all-archives" components={{content: Archive}} />
-            <Route path="tags" components={{content: Tags}} />
-            <Route path="tag/:tag" components={{content: Tag}} />
-            <Route path="category" components={{content: Category}} />
-            <Route path="post" components={{content: Post}} />
-            <Route path="userCenter" components={{content: UserCenter}} />
-            <Route path="register" components={{content: Register}} />
-            <Route path="login" components={{content: Login}} />
-            <Route path="links" components={{content: Links}} />
-            <Route path="*" components={{content: NotFound}} />
+            <IndexRoute components={{content: Main}}/>
+            <Route path="article/detail/:id" components={{content: Detail}}/>
+            <Route path="all-archives" components={{content: Archive}}/>
+            <Route path="archives/:archive" components={{content: ArchiveDetail}}/>
+            <Route path="tags" components={{content: Tags}}/>
+            <Route path="tags/:tag" components={{content: Tag}}/>
+            <Route path="category" components={{content: Category}}/>
+            <Route path="*" components={{content: NotFound}}/>
         </Route>
     );
 }

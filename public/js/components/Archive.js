@@ -8,6 +8,7 @@ import React,{Component} from "react";
 import {Route,Link} from "react-router";
 
 import Bottom from "./Bottom";
+import Loading from "./Loading";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export default class Archive extends Component {
@@ -19,6 +20,7 @@ export default class Archive extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isFetching: false,
             archives: []
         };
     }
@@ -27,15 +29,22 @@ export default class Archive extends Component {
      * 组件即将被实例化完成,请求具体的目录
      */
     componentWillMount() {
+        this.setState({
+            isFetching: true
+        });
         requestMethods.GetRequest({
             url: requestUrls.getArchives,
             success: (res) => {
                 this.setState({
+                    isFetching: false,
                     archives: res.archives
                 });
             },
             error: (ex) => {
                 alert("请求失败");
+                this.setState({
+                    isFetching: false
+                });
                 console.log(ex);
             }
         });
@@ -66,7 +75,8 @@ export default class Archive extends Component {
                                 {curRend.map((rend) => {
                                     return (
                                         <li className="archive-post archive-day" key={rend["_id"]}>
-                                            <Link className="archive-post-title" to={`/article/detail/${rend["_id"]}`}>{rend["title"]}</Link>
+                                            <Link className="archive-post-title"
+                                                  to={`/article/detail/${rend["_id"]}`}>{rend["title"]}</Link>
                                             <span className="archive-post-date"> - {rend["day"]["day"]}</span>
                                         </li>
                                     );
@@ -92,14 +102,14 @@ export default class Archive extends Component {
                 let yearMonth = item["day"]["year-month"];
                 if (!renderData[year]) {
                     renderData[year] = {};
-                    if(!renderData[year][yearMonth]){
+                    if (!renderData[year][yearMonth]) {
                         renderData[year][yearMonth] = [];
                         renderData[year][yearMonth].push(item);
                     } else {
                         renderData[year][yearMonth].push(item);
                     }
                 } else {
-                    if(!renderData[year][yearMonth]){
+                    if (!renderData[year][yearMonth]) {
                         renderData[year][yearMonth] = [];
                         renderData[year][yearMonth].push(item);
                     } else {
@@ -120,14 +130,17 @@ export default class Archive extends Component {
      * @returns {XML}
      */
     render() {
-        return (
+        const {isFetching} = this.state;
+        let ele = (
             <div id="main" data-behavior="1">
-
-                <div id="archives" className="main-content-wrap">
-                    {this.renderArchives()}
-                </div>
+            <div id="archives" className="main-content-wrap">
+                {this.renderArchives()}
             </div>
-        );
+        </div>);
+        if(isFetching){
+            ele = <Loading />;
+        }
+        return ele;
     }
 }
 

@@ -8,6 +8,7 @@ import React,{Component} from "react";
 import {Route,Link} from "react-router";
 
 import Bottom from "./Bottom";
+import Loading from "./Loading";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export default class Detail extends Component {
@@ -19,6 +20,7 @@ export default class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            "fetching": false,
             "detail": {}
         };
     }
@@ -27,6 +29,9 @@ export default class Detail extends Component {
      * 组件即将被实例化完成
      */
     componentDidMount() {
+        this.setState({
+            "fetching":true
+        });
         this.fetchDetail();
     }
 
@@ -39,7 +44,8 @@ export default class Detail extends Component {
             url: `${requestUrls.articleDetail}/${id}`,
             success: (res) => {
                 this.setState({
-                    detail: res.detail
+                    "fetching": false,
+                    "detail": res.detail
                 });
             },
             error: (ex) => {
@@ -54,7 +60,7 @@ export default class Detail extends Component {
      * @param tags  标签数组
      * @returns {XML}
      */
-    rendTags(tags){
+    rendTags(tags) {
         return (
             <div className="post-footer-tags">
                 <span className="text-color-light text-small">标签</span><br/>
@@ -79,13 +85,15 @@ export default class Detail extends Component {
                     <article className="post" itemScope="" itemType="http://schema.org/BlogPosting">
                         <div className="post-header main-content-wrap">
                             <h1 className="post-title" itemProp="headline">{detail["title"]}</h1>
+
                             <div className="post-meta">
                                 <time itemProp="datePublished" content={detail["day"]["day"]}>
                                     {detail["day"]["day"]}
                                 </time>
                             </div>
                         </div>
-                        <div className="post-content markdown main-content-wrap" itemProp="articleBody" dangerouslySetInnerHTML={{"__html": detail["post"]}}>
+                        <div className="post-content markdown main-content-wrap" itemProp="articleBody"
+                             dangerouslySetInnerHTML={{"__html": detail["post"]}}>
                         </div>
                         <div className="post-footer main-content-wrap">
                             {this.rendTags(detail.tags)}
@@ -102,10 +110,14 @@ export default class Detail extends Component {
      * @returns {XML}
      */
     render() {
-        const {detail} = this.state;
+        const {fetching,detail} = this.state;
+        let ele = <Loading />;
+        if(!fetching){
+            ele = this.renderDetail(detail);
+        }
         return (
             <div className="container">
-                {this.renderDetail(detail)}
+                {ele}
             </div>
         );
     }

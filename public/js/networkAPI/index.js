@@ -43,10 +43,8 @@ export const requestUrls = {
     "articleDetail": `${prefUri}articles/detail`,
     "tags": `${prefUri}allTags`,
     "tag": `${prefUri}tag/articles`,
-    "postArticle": `${prefUri}postArticle`,
-    "updateArticle": `${prefUri}updateArticle`,
-    "deleteArticle": `${prefUri}deleteArticle`,
     "getArchives": `${prefUri}archives`,
+    "ArchiveDetail":`${prefUri}archives/article`,
     "getCategory":`${prefUri}allCategory`
 };
 

@@ -7,6 +7,7 @@
 import React,{Component} from "react";
 import {Route,Link} from "react-router";
 import Bottom from "./Bottom";
+import Loading from "./Loading";
 import {requestMethods,requestUrls} from "../networkAPI";
 
 export default class Category extends Component {
@@ -128,15 +129,17 @@ export default class Category extends Component {
      * @returns {XML}
      */
     render() {
-        const {archives} = this.state;
-        return (
-            <div id="main" data-behavior="1">
-                <div id="categories-archives" className="main-content-wrap">
-                    {this.renderCategory()}
-                </div>
-                <Bottom />
+        const {fetching} = this.state;
+        let ele = <div id="main" data-behavior="1">
+            <div id="categories-archives" className="main-content-wrap">
+                {this.renderCategory()}
             </div>
-        );
+            <Bottom />
+        </div>;
+        if(fetching){
+            ele = <Loading />;
+        }
+        return ele;
     }
 }
 

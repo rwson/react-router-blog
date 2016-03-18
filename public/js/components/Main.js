@@ -11,6 +11,7 @@ import {Route,Link} from "react-router";
 import {connect} from "react-redux";
 import * as Actions from "../actions";
 import Bottom from "./Bottom";
+import Loading from "./Loading";
 
 class Main extends Component {
 
@@ -27,33 +28,18 @@ class Main extends Component {
      * 组件即将被初始化完成,请求数据
      */
     componentWillMount() {
-        const {GetArticleList,page} = this.props;
+        const {GetArticleList,startGetList,page} = this.props;
+        startGetList();
         GetArticleList(page);
-    }
-
-    /**
-     * 如果没有文章,根据是否登录显示相关信息
-     * @returns {XML}
-     */
-    rendLoginAndPost() {
-        const {isLogined} = this.props;
-        if (!isLogined) {
-            return (
-                <span>快去<Link to="/reg">注册</Link>或<Link to="/login">登录</Link>发表文章吧!</span>
-            );
-        } else if (isLogined) {
-            return (
-                <span>快去<Link to="/login">登录</Link>发表文章吧!</span>
-            );
-        }
     }
 
     /**
      * 上一页
      */
     handlePrevPage() {
-        const {GetArticleList,page} = this.props;
+        const {GetArticleList,startGetList,page} = this.props;
         let targetPage = page - 1 == 0 ? 1 : page - 1;
+        startGetList();
         GetArticleList(targetPage);
     }
 
@@ -61,8 +47,9 @@ class Main extends Component {
      * 下一页
      */
     handleNextPage() {
-        const {GetArticleList,page} = this.props;
+        const {GetArticleList,startGetList,page} = this.props;
         let targetPage = page + 1 == 0 ? 1 : page + 1;
+        startGetList();
         GetArticleList(targetPage);
     }
 
@@ -145,12 +132,7 @@ class Main extends Component {
                                 </div>
                             </div>
                             <div className="post-excerpt" itemProp="articleBody">
-                                <p>
-                                    <div className="show-preview" dangerouslySetInnerHTML={{"__html": item["post"].length ? item["post"] : "<p>暂无内容</p>"}}>
-                                    </div>
-                                    <br/>
-                                    <Link to={link} className="post-excerpt_link link ">继续阅读 »</Link>
-                                </p>
+                                <Link to={link} className="post-excerpt_link link ">继续阅读 »</Link>
                             </div>
                         </div>
                     </article>
@@ -163,30 +145,28 @@ class Main extends Component {
      * @returns {XML}
      */
     render() {
-        const {list} = this.props;
+        const {list,isFetching} = this.props;
+        let ele = <section className="post-group main-content-wrap">
+            {this.rendList(list)}
+            {this.renderPagenation()}
+        </section>;
+        if(isFetching){
+            ele = <Loading main={true} />;
+        }
         return (
             <div id="main" data-behavior="1">
-                <section className="post-group main-content-wrap">
-                    {this.rendList(list)}
-                    {this.renderPagenation()}
-                </section>
+                {ele}
             </div>
         );
     }
 }
-
-
-Main.propTypes = {
-    GetArticleList: PropTypes.func.isRequired,
-    page: PropTypes.number.isRequired
-};
 
 function mapStateToProps(state) {
     return {
         page: state.reducers.page,
         totalPage: state.reducers.totalPage,
         list: state.reducers.list,
-        isLogined: state.reducers.isLogined
+        isFetching:state.reducers.isFetching
     };
 }
 
