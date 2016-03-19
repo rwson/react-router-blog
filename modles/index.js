@@ -5,14 +5,11 @@
 "use strict";
 
 var settings = require("../settings"),
-    mongoose = require("mongoose");
+    mongoose = require("mongoose"),
+    env = settings.env;
 
 //  开发环境和发布环境的数据库连接
-if(!settings.env || settings.env === "dev"){
-    mongoose.connect(settings.devDatabase.host + settings.devDatabase.db);
-} else if(settings.env === "public"){
-    mongoose.connect(settings.pubDatabase.host + settings.pubDatabase.db);
-}
+mongoose.connect(settings[env].host + settings[env].db);
 
 exports.User = mongoose.model("User",require("./user"));
 exports.Post = mongoose.model("Post",require("./post"));

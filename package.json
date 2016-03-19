@@ -24,6 +24,7 @@
     "css-loader": "^0.14.5",
     "ejs": "*",
     "express": "3.21.1",
+    "express-favicon": "^1.0.1",
     "fetch-polyfill": "^0.8.2",
     "file-loader": "^0.8.4",
     "flux": "^2.0.3",

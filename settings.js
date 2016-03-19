@@ -3,12 +3,14 @@
  */
 
 module.exports = {
-    "env": "dev",
-    "devDatabase": {
+    "env": "develop",
+    "develop": {
+        "port":3000,
         "db": "blog",
-        "host": "mongodb://115.28.88.79:27017/"
+        "host": "mongodb://127.0.1.1:27017/"
     },
-    "pubDatabase": {
+    "public": {
+        "port":80,
         "db": "blog",
         "host": "mongodb://137.4.3.2:27017/"
     },
@@ -18,5 +20,5 @@ module.exports = {
     "admin": {
         "username": "rwson",
         "password": "s87654321"
-    }
+    },
 };
