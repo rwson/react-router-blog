@@ -5,6 +5,7 @@
 "use strict";
 
 import * as util from "../util";
+import "fetch-polyfill";
 
 //  http请求头参数配置
 const httpDefault = {
@@ -44,8 +45,8 @@ export const requestUrls = {
     "tags": `${prefUri}allTags`,
     "tag": `${prefUri}tag/articles`,
     "getArchives": `${prefUri}archives`,
-    "ArchiveDetail":`${prefUri}archives/article`,
-    "getCategory":`${prefUri}allCategory`
+    "ArchiveDetail": `${prefUri}archives/article`,
+    "getCategory": `${prefUri}allCategory`
 };
 
 //  POST、GET、DELETE请求方法配置

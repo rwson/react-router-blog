@@ -17,6 +17,10 @@ export default class NavBar extends Component {
         super(props);
     }
 
+    showSideBar() {
+        alert(11);
+    }
+
     /**
      * 渲染组件布局
      * @returns {XML}
@@ -25,19 +29,18 @@ export default class NavBar extends Component {
         return (
             <div>
                 <header id="header" data-behavior="1">
-                    <i id="btn-open-sidebar" className="fa fa-lg fa-bars"></i>
-
+                    <i id="btn-open-sidebar" onClick={this.showSideBar.bind(this)} className="fa fa-lg fa-bars"></i>
                     <h1 className="header-title">
                         <Link className="header-title-link" to="/">小宋</Link>
                     </h1>
-                    <Link className="header-right-picture" to="javascript:;">
-                        <img className="header-picture" src="/images/logo.png"/>
+                    <Link className="header-right-picture" to="/">
+                        <img className="header-picture" src="/image/logo.png"/>
                     </Link>
                 </header>
                 <nav id="sidebar" data-behavior="1">
                     <div className="sidebar-profile">
                         <Link to="/">
-                            <img className="sidebar-profile-picture" src="/images/logo.png"/>
+                            <img className="sidebar-profile-picture" src="/image/logo.png"/>
                         </Link>
                         <span className="sidebar-profile-name">小宋</span>
                     </div>
@@ -80,18 +83,3 @@ export default class NavBar extends Component {
         );
     }
 }
-
-
-//<li className="sidebar-button">
-//    <Link className="sidebar-button-link st-search-show-outputs" to="http://www.maxzhang.com/#search">
-//        <i className="sidebar-button-icon fa fa-lg fa-search"></i>
-//        <span className="sidebar-button-desc">搜索</span>
-//    </Link>
-//</li>
-//
-//<li className="sidebar-button">
-//    <Link className="sidebar-button-link " to="http://www.maxzhang.com/#about">
-//        <i className="sidebar-button-icon fa fa-lg fa-question"></i>
-//        <span className="sidebar-button-desc">关于我</span>
-//    </Link>
-//    </li>

@@ -22,7 +22,7 @@ app.set('view engine', 'ejs');
 // app.engine('.html', require('ejs').__express);
 //	设置后缀名为.html的文件里面存放ejs代码
 
-app.use(express.favicon(path.join(__dirname, "./public/images/site.ico")));
+app.use(express.favicon(path.join(__dirname, "./public/image/site.ico")));
 app.use(express.logger('dev'));
 
 app.use(express.logger({'stream':accessLog}));

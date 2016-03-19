@@ -3137,6 +3137,7 @@ p {
 #main {
     display: block;
     min-height: 100%;
+    position: relative;
     -webkit-transition: -webkit-transform .25s ease-in-out
 }
 
@@ -3811,7 +3812,7 @@ p {
     text-decoration: none
 }
 
-.btn--disabled{
+.btn--disabled {
     display: none;
 }
 
@@ -4514,7 +4515,7 @@ a.link-unstyled a.link, a.link-unstyled a.link:active, a.link-unstyled a.link:ho
 
 .main-content-wrap {
     display: block;
-    max-width: 750px;
+    max-width: 100;
     margin: 0 auto;
     padding-right: 20px;
     padding-left: 20px
@@ -5111,6 +5112,6 @@ a.link-unstyled a.link, a.link-unstyled a.link:active, a.link-unstyled a.link:ho
 .main-content-wrap code,
 .main-content-wrap pre {
     display: block;
-    width: 100%;
+    word-break:break-all;
 }
 

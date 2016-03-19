@@ -1,4 +1,9 @@
 var path = __dirname + "/public/js/";
+var webpack = require("webpack");
+
+new webpack.DefinePlugin({
+    'process.env.NODE_ENV': '"production"'
+});
 
 module.exports = {
     entry: [

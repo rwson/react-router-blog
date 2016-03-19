@@ -11,7 +11,6 @@ export function GetArticleList(page) {
     return dispatch => requestMethods.GetRequest({
         url: `${requestUrls.articleList}/${curPage}`,
         success: (res) => {
-            alert(222);
             return dispatch({
                 type: ARTICLE_LIST,
                 list: res.data,

@@ -13,7 +13,7 @@ module.exports = {
         "host": "mongodb://137.4.3.2:27017/"
     },
     "cookieSecret": "myblog",
-    "avatarDir": "./public/images/faces",
+    "avatarDir": "./public/image/faces",
     "staticPath": "./public",
     "admin": {
         "username": "rwson",
