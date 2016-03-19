@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-    "env": "develop",
+    "env": "public",
     "develop": {
         "port":3000,
         "db": "blog",
@@ -12,7 +12,7 @@ module.exports = {
     "public": {
         "port":80,
         "db": "blog",
-        "host": "mongodb://137.4.3.2:27017/"
+        "host": "mongodb://127.0.0.1:27017/"
     },
     "cookieSecret": "myblog",
     "avatarDir": "./public/image/faces",
