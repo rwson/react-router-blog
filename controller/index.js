@@ -4,6 +4,4 @@
 
 "use strict";
 
-exports.User = require("./User");
 exports.Post = require("./Post");
-exports.Commet = require("./Comment");

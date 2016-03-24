@@ -17,6 +17,7 @@ module.exports = {
     "cookieSecret": "myblog",
     "avatarDir": "./public/image/faces",
     "staticPath": "./public",
+    "postImagePath":"./public/image/posts",
     "admin": {
         "username": "rwson",
         "password": "s87654321"

@@ -1,7 +1,6 @@
 "use strict";
 
-var //User = require("../controller").User,
-    Post = require("../controller").Post;
+var Post = require("../controller").Post;
 
 module.exports = function (app) {
 
@@ -160,9 +159,9 @@ module.exports = function (app) {
                 });
                 return;
             }
-            res.send(200,{
-                "status":"success",
-                "articles":articles
+            res.send(200, {
+                "status": "success",
+                "articles": articles
             });
         });
     });
@@ -185,6 +184,12 @@ module.exports = function (app) {
                 "message": "add success!"
             });
         });
+    });
+
+    /**
+     * 上传文件
+     */
+    app.get("/upload", function (req, res) {
     });
 
     //
@@ -623,6 +628,12 @@ function _encodeUrl(data) {
     return arr.join("/");
 }
 
+/**
+ * 输出指定时间的字符串
+ * @param day   时间
+ * @returns {{date: Date, year: string, month: string, year-month: string, day: string, hour: string, minute: string, second: string}}
+ * @private
+ */
 function _returnDateObject(day) {
     var date = new Date(day);
     var year = date.getFullYear();
@@ -644,10 +655,22 @@ function _returnDateObject(day) {
     };
 }
 
+/**
+ * 月份+1
+ * @param month 月份
+ * @returns {*}
+ * @private
+ */
 function _monthPlusOne(month) {
     return month + 1;
 }
 
+/**
+ * 一位数转2位数
+ * @param num
+ * @returns {*}
+ * @private
+ */
 function _toDouble(num) {
     return num > 9 ? num : ("0" + num);
 }
