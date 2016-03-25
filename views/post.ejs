@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>小宋 - 文章发布</title>
+    <link href="/editor.md/css/editormd.min.css" type="text/css" rel="stylesheet"/>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        * {
+            border-radius: 0 !important;
+        }
+
+        .form-control {
+            border: 1px solid #ddd
+        }
+
+        .tag-show {
+            margin: 10px 0 0 0;
+        }
+
+        .tag-item {
+            margin: 0 5px 0 0;
+        }
+
+        .delete-tag ,
+        .delete-cate {
+            font-weight: bold;
+            color: red;
+            padding: 0 0 0 5px;
+        }
+
+        .button-area {
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        .btn {
+            width: 80px;
+        }
+
+        .tag-item {
+            width: auto;
+        }
+
+        .tags-editor {
+            width: 90%;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main">
+
+    <div class="form-group tags-editor">
+        <label for="exampleInputEmail1">文章标题</label>
+        <input type="text" class="form-control" id="title-filed" placeholder="请输入文章标题..."/>
+    </div>
+
+    <div class="form-group tags-editor">
+        <label for="exampleInputEmail1">标签</label>
+        <input type="text" class="form-control" id="tags-filed" placeholder="请输入文章标签,按下回车键新增,最多支持5个..."/>
+        <div class="tag-show" id="tag-show"></div>
+    </div>
+
+    <div class="form-group tags-editor">
+        <label for="exampleInputEmail1">分类</label>
+        <input type="text" class="form-control" id="category" placeholder="请输入文章分类,按下回车键新增,最多支持5个..."/>
+        <div class="tag-show" id="cate-show"></div>
+    </div>
+
+    <div id="editormd" style="width:100%;height: 500px;">
+        <textarea style="display:none;"></textarea>
+    </div>
+    <div class="button-area">
+        <button class="btn btn-danger btn-primary" type="button" data-toggle="modal" data-target="#confirmModal">清空
+        </button>
+        <button class="btn btn-success btn-primary" type="button" id="save">保存</button>
+    </div>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">确定</h4>
+                </div>
+                <div class="modal-body">
+                    真的要清空之前的所有编辑吗?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="empty">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-sm" id="tips">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger" id="tips-content">请先输入标签!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/editor.md/editormd.min.js"></script>
+<script type="text/javascript" src="/js/post-editor.js"></script>
+</body>
+</html>

@@ -69,6 +69,12 @@ export default class NavBar extends Component {
                                 <span className="sidebar-button-desc">归档</span>
                             </Link>
                         </li>
+                        <li className="sidebar-button">
+                            <Link className="sidebar-button-link " target="_blank" to="/post/new">
+                                <i className="sidebar-button-icon fa fa-file"></i>
+                                <span className="sidebar-button-desc">投稿</span>
+                            </Link>
+                        </li>
                     </ul>
                     <ul className="sidebar-buttons">
                         <li className="sidebar-button">

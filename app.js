@@ -29,13 +29,13 @@ app.use(express.logger({'stream': accessLog}));
 
 app.use(express.bodyParser({
     'keepExtensions': true,
-    'uploadDir': './public/upload'
+    'uploadDir': settings.postImagePath
 }));
 //	保留文件的后缀名和上传路径
 
 app.use(cookieSession({
     secret: settings.cookieSecret,
-    key: settings.db,
+    key: settings[env].db,
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 30}
 }));
 //	写入cookie和session
@@ -57,10 +57,6 @@ if (env == "develop") {
 }
 
 routes(app);
-
-app.use("/", function (req, res) {
-    res.render("index");
-});
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));

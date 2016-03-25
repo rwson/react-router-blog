@@ -34,6 +34,19 @@ module.exports = {
     },
 
     /**
+     * 查询所有文章
+     * @param callback  回调函数
+     */
+    "fetchAll": function (callback) {
+        Post.find({}, {
+            "day": 1,
+            "title": 1
+        }).sort({
+            "day": -1
+        }).exec(callback);
+    },
+
+    /**
      * 根据_id查询用户
      * @param _id       ObjectId,用来查询用户
      * @param callback  回调函数
@@ -125,6 +138,15 @@ module.exports = {
         }).sort({
             "day": -1
         }).exec(callback);
+    },
+
+    /**
+     * 根据id删除一篇文章
+     * @param id        被删除文章的id
+     * @param callback  回调函数
+     */
+    "deleteById": function (id, callback) {
+        Post.findByIdAndRemove(id,callback);
     }
 
 };
